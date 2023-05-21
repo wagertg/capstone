@@ -5,6 +5,9 @@ const Team = require('./Team');
 User.belongsTo(Team);
 Team.hasMany(User);
 
+Notification.belongsTo(User);
+User.hasMany(Notification);
+
 const syncAndSeed = async () => {
   await conn.sync({ force: true });
   const [moe, lucy, larry, ethyl] = await Promise.all([
