@@ -32,6 +32,10 @@ const User = conn.define('user', {
       notEmpty: true
     }
   },
+  avatar: {
+    type: TEXT,
+    allowNull: false
+  },
   isTeamLead: {
     type: BOOLEAN,
     defaultValue: false
