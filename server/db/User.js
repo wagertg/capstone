@@ -33,8 +33,7 @@ const User = conn.define('user', {
     }
   },
   avatar: {
-    type: TEXT,
-    allowNull: false
+    type: TEXT
   },
   isTeamLead: {
     type: BOOLEAN,
