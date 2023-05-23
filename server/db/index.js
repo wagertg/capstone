@@ -1,6 +1,7 @@
 const conn = require('./conn');
 const User = require('./User');
 const Team = require('./Team');
+const Notification = require('./Notification');
 
 User.belongsTo(Team);
 Team.hasMany(User);
@@ -28,5 +29,7 @@ const syncAndSeed = async () => {
 
 module.exports = {
   syncAndSeed,
-  User
+  User,
+  Team,
+  Notification
 };

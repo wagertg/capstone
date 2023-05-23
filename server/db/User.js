@@ -75,6 +75,27 @@ User.prototype.generateToken = function () {
   return jwt.sign({ id: this.id }, JWT);
 };
 
+User.prototype.getNotifications = async function () {
+  return await conn.models.notification.findAll({
+    where: {
+      userId: this.id
+    }
+  });
+};
+
+User.prototype.removeNotification = async function (id) {
+  const notification = await conn.models.notification.findByPk(id);
+  await notification.destroy();
+};
+
+User.prototype.removeAllNotifications = async function () {
+  conn.models.notification.destroy({
+    where: {
+      userId: this.id
+    }
+  });
+};
+
 User.authenticate = async function ({ username, password }) {
   const user = await this.findOne({
     where: {
