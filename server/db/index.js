@@ -37,4 +37,5 @@ module.exports = {
   User,
   Team,
   Notification,
+  Comment,
 };

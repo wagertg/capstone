@@ -95,23 +95,6 @@ User.prototype.removeAllNotifications = async function () {
   });
 };
 
-User.addComment = async function (userId, taskId, content) {
-  const comment = await Comment.create({
-    userId: userId,
-    taskId: taskId,
-    content: content,
-  });
-  return comment;
-};
-
-User.prototype.getComments = async function () {
-  const comments = await Comment.findAll({
-    where: { userId: this.id },
-    include: [Task, User],
-  });
-  return comments;
-};
-
 User.authenticate = async function ({ username, password }) {
   const user = await this.findOne({
     where: {
