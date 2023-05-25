@@ -1,11 +1,11 @@
-const conn = require('./conn');
+const conn = require("./conn");
 const { UUID, UUIDV4, STRING } = conn.Sequelize;
 
-const Team = conn.define('team', {
+const Team = conn.define("team", {
   id: {
     type: UUID,
     primaryKey: true,
-    defaultValue: UUIDV4
+    defaultValue: UUIDV4,
   },
 
   name: {
@@ -13,9 +13,9 @@ const Team = conn.define('team', {
     allowNull: false,
 
     validate: {
-      notEmpty: true
-    }
-  }
+      notEmpty: true,
+    },
+  },
 });
 
 module.exports = Team;
