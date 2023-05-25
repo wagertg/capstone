@@ -42,9 +42,8 @@ export const removeAllNotifications = () => {
           authorization: token
         }
       });
-
-      dispatch({ type: 'REMOVE_NOTIFICATIONS' });
     }
+    dispatch({ type: 'REMOVE_NOTIFICATIONS' });
   };
 };
 
