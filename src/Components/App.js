@@ -1,33 +1,53 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Home from './Home';
 import Login from './Login';
 import { useSelector, useDispatch } from 'react-redux';
-import { loginWithToken } from '../store';
+import {
+  loginWithToken,
+  fetchNotifications,
+  removeAllNotifications
+} from '../store';
 import { Link, Routes, Route } from 'react-router-dom';
+import Nav from './Nav';
 
-
-const App = ()=> {
+const App = () => {
   const { auth } = useSelector(state => state);
   const dispatch = useDispatch();
-  useEffect(()=> {
+  const prevAuth = useRef({});
+
+  useEffect(() => {
     dispatch(loginWithToken());
   }, []);
 
+  useEffect(() => {
+    if (!prevAuth.current.id && auth.id) {
+      console.log('logged in');
+      dispatch(fetchNotifications());
+    } else if (prevAuth.current.id && !auth.id) {
+      console.log('logged out');
+      dispatch(removeAllNotifications());
+    }
+  }, [auth]);
+
+  useEffect(() => {
+    prevAuth.current = auth;
+  });
+
   return (
     <div>
-      <h1>FS App Template</h1>
-      {
-        auth.id ? <Home /> : <Login />
-      }
-      {
-        !!auth.id  && (
-          <div>
-            <nav>
-              <Link to='/'>Home</Link>
-            </nav>
-          </div>
-        )
-      }
+      <Nav />
+      <div>
+        <Routes>
+          <Route
+            path='/'
+            element={<Home />}
+          />
+          <Route
+            path='/login'
+            element={<Login />}
+          />
+        </Routes>
+      </div>
     </div>
   );
 };
