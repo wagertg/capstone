@@ -5,12 +5,14 @@ import auth from './auth';
 import teams from './team';
 import notifications from './notifications';
 import onlineUsers from './onlineUsers';
+import users from './users';
 
 const reducer = combineReducers({
   auth,
   teams,
   notifications,
-  onlineUsers
+  onlineUsers,
+  users
 });
 
 const store = createStore(reducer, applyMiddleware(thunk, logger));
@@ -21,3 +23,4 @@ export * from './auth';
 export * from './team';
 export * from './notifications';
 export * from './onlineUsers';
+export * from './users';

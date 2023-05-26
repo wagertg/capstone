@@ -13,6 +13,7 @@ app.get('/', (req, res) =>
 app.use('/api/auth', require('./api/auth'));
 app.use('/api/notifications', require('./api/notifications'));
 app.use('/api/team', require('./api/team'));
+app.use('/api/users', require('./api/users'));
 app.use('/api/comments', require('./api/comments'));
 
 module.exports = app;
