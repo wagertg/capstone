@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 import { logout } from '../store';
+import BadgedAvatar from './BadgedAvatar';
 import {
   Menu,
   MenuItem,
@@ -31,7 +32,10 @@ const AccountMenu = () => {
           onClick={handleOpen}
           sx={{ p: 0 }}
         >
-          <Avatar />
+          <BadgedAvatar
+            imageUrl={auth.avatar}
+            id={auth.id}
+          />
         </IconButton>
       </Tooltip>
       <Menu

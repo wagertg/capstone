@@ -6,10 +6,13 @@ import {
   loginWithToken,
   fetchNotifications,
   removeAllNotifications,
-  fetchOnlineUsers
+  fetchOnlineUsers,
+  fetchUsers,
+  fetchTeams
 } from '../store';
 import { Link, Routes, Route } from 'react-router-dom';
 import Nav from './Nav';
+import Team from './Team';
 
 const App = () => {
   const { auth } = useSelector(state => state);
@@ -24,6 +27,8 @@ const App = () => {
     if (!prevAuth.current.id && auth.id) {
       console.log('logged in');
       dispatch(fetchNotifications());
+      dispatch(fetchUsers());
+      dispatch(fetchTeams());
 
       window.socket = new WebSocket(
         window.location.origin.replace('http', 'ws')
@@ -68,6 +73,10 @@ const App = () => {
           <Route
             path='/login'
             element={<Login />}
+          />
+          <Route
+            path='/team'
+            element={<Team />}
           />
         </Routes>
       </div>
