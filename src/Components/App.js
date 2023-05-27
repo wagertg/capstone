@@ -1,7 +1,11 @@
 import React, { useEffect, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link, Routes, Route, useLocation } from 'react-router-dom';
 import Home from './Home';
 import Login from './Login';
-import { useSelector, useDispatch } from 'react-redux';
+import Nav from './Navigation/Nav';
+import Team from './Team';
+import CreateAccount from './CreateAccount';
 import {
   loginWithToken,
   fetchNotifications,
@@ -10,9 +14,6 @@ import {
   fetchUsers,
   fetchTeams
 } from '../store';
-import { Link, Routes, Route, useLocation } from 'react-router-dom';
-import Nav from './Nav';
-import Team from './Team';
 
 const App = () => {
   const { auth } = useSelector(state => state);
@@ -83,6 +84,10 @@ const App = () => {
           <Route
             path='/login'
             element={<Login prevLocation={prevLocation.current} />}
+          />
+          <Route
+            path='/register'
+            element={<CreateAccount prevLocation={prevLocation.current} />}
           />
           <Route
             path='/team'
