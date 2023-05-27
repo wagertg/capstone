@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { attemptLogin, register } from '../store';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Typography } from '@mui/material';
 
-const Login = () => {
+const Login = ({ prevLocation }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [changeForm, setChangeForm] = useState(false);
   const [credentials, setCredentials] = useState({
     username: '',
@@ -18,11 +20,13 @@ const Login = () => {
   const login = ev => {
     ev.preventDefault();
     dispatch(attemptLogin(credentials));
+    navigate(prevLocation);
   };
 
   const create = ev => {
     ev.preventDefault();
     dispatch(register({ ...credentials, name: credentials.username }));
+    navigate(prevLocation);
   };
 
   return (
