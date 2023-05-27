@@ -1,52 +1,62 @@
 import React, { useState } from 'react';
-import { attemptLogin, register } from '../store';
+import { register } from '../store';
 import { useDispatch } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 import { TextField, Button, Typography } from '@mui/material';
 
-const Login = ({ prevLocation }) => {
+const CreateAccount = ({ prevLocation }) => {
   const dispatch = useDispatch();
   const [credentials, setCredentials] = useState({
     username: '',
-    password: ''
+    password: '',
+    name: ''
   });
 
   const onChange = ev => {
     setCredentials({ ...credentials, [ev.target.name]: ev.target.value });
   };
 
-  const login = ev => {
+  const create = ev => {
     ev.preventDefault();
-    dispatch(attemptLogin(credentials));
+    dispatch(register(credentials));
     navigate(prevLocation);
   };
 
   return (
     <div>
-      <Typography variant='h2'>Login</Typography>
+      <Typography variant='h2'>Create Account</Typography>
       <Button
         component={RouterLink}
-        to='/register'
+        to='/login'
       >
-        Create Account
+        Login
       </Button>
-      <form onSubmit={login}>
+      <form onSubmit={create}>
         <TextField
+          required
+          placeholder='name'
+          value={credentials.name}
+          name='name'
+          onChange={onChange}
+        />
+        <TextField
+          required
           placeholder='username'
           value={credentials.username}
           name='username'
           onChange={onChange}
         />
         <TextField
+          required
           placeholder='password'
           name='password'
           value={credentials.password}
           onChange={onChange}
         />
-        <Button type='submit'>Login</Button>
+        <Button type='submit'>Create Account</Button>
       </form>
     </div>
   );
 };
 
-export default Login;
+export default CreateAccount;

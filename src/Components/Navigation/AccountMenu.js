@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
-import { logout } from '../store';
-import BadgedAvatar from './BadgedAvatar';
+import { logout } from '../../store';
+import BadgedAvatar from '../BadgedAvatar';
 import {
   Menu,
   MenuItem,

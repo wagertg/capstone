@@ -3,7 +3,7 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import NavMenu from './NavMenu';
 import AccountMenu from './AccountMenu';
-import Notification from './Notification';
+import Notification from '../Notification';
 
 import {
   AppBar,
@@ -15,7 +15,7 @@ import {
   Button
 } from '@mui/material';
 
-import { Login } from '@mui/icons-material';
+import { Login, AppRegistration } from '@mui/icons-material';
 
 const Nav = () => {
   const { auth } = useSelector(state => state);
@@ -72,9 +72,8 @@ const Nav = () => {
           </Box>
 
           {!!auth.id && <Notification />}
-          {auth.id ? (
-            <AccountMenu />
-          ) : (
+          {!!auth.id && <AccountMenu />}
+          {!auth.id && (
             <IconButton
               color='inherit'
               onClick={() => navigate('/login')}
@@ -85,6 +84,20 @@ const Nav = () => {
                 variant='body1'
               >
                 Login
+              </Typography>
+            </IconButton>
+          )}
+          {!auth.id && (
+            <IconButton
+              color='inherit'
+              onClick={() => navigate('/register')}
+            >
+              <AppRegistration fontSize='small' />
+              <Typography
+                margin={0.5}
+                variant='body1'
+              >
+                Sign Up
               </Typography>
             </IconButton>
           )}
