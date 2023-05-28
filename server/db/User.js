@@ -109,4 +109,31 @@ User.authenticate = async function ({ username, password }) {
   throw error;
 };
 
+User.prototype.messagesForUser = function () {
+  return conn.models.message.findAll({
+    where: {
+      [conn.Sequelize.Op.or]: [
+        {
+          toId: this.id,
+        },
+        {
+          fromId: this.id,
+        },
+      ],
+    },
+    include: [
+      {
+        model: User,
+        as: "from",
+        attributes: ["username", "id"],
+      },
+      {
+        model: User,
+        as: "to",
+        attributes: ["username", "id"],
+      },
+    ],
+  });
+};
+
 module.exports = User;
