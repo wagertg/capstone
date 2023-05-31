@@ -1,10 +1,11 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-
+import { useParams } from 'react-router-dom';
 import { AvatarGroup } from '@mui/material';
 import BadgedAvatar from './BadgedAvatar';
 
 const Team = () => {
+  const id = useParams();
   const { users, auth } = useSelector(state => state);
   return (
     <AvatarGroup>
