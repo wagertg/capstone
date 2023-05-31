@@ -62,6 +62,7 @@ const syncAndSeed = async () => {
       moe,
       lucy,
       larry,
+      ethyl,
     },
   };
 };

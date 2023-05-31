@@ -109,6 +109,14 @@ User.authenticate = async function ({ username, password }) {
   throw error;
 };
 
+User.prototype.sendMessage = function (toId, content) {
+  return conn.models.message.create({
+    content: content,
+    fromId: this.id,
+    toId: toId,
+  });
+};
+
 User.prototype.messagesForUser = function () {
   return conn.models.message.findAll({
     where: {
