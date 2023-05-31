@@ -15,7 +15,8 @@ import {
   fetchOnlineUsers,
   fetchUsers,
   fetchTeams,
-  fetchMessages
+  fetchMessages,
+  sendMessage
 } from '../store';
 
 const App = () => {
@@ -58,7 +59,11 @@ const App = () => {
         const message = JSON.parse(ev.data);
 
         if (message.type) {
-          dispatch(message);
+          if (message.type === 'SEND_MESSAGE') {
+            dispatch(sendMessage(message));
+          } else {
+            dispatch(message);
+          }
         }
         if (message.status && message.status === 'online') {
           dispatch(fetchOnlineUsers());

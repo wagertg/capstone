@@ -16,11 +16,9 @@ const Message = conn.define("message", {
   },
   toId: {
     type: UUID,
-    allowNull: false,
   },
   fromId: {
     type: UUID,
-    allowNull: false,
   },
 });
 
