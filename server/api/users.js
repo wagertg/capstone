@@ -18,6 +18,22 @@ app.get('/', isLoggedIn, async (req, res, next) => {
   }
 });
 
+app.put('/:id', isLoggedIn, async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.params.id);
+
+    await user.update(req.body);
+
+    res.send(
+      await User.findByPk(req.params.id, {
+        attributes: ['id', 'name', 'avatar', 'teamId']
+      })
+    );
+  } catch (ex) {
+    next(ex);
+  }
+});
+
 app.get('/online_users', (req, res, next) => {
   try {
     res.send(

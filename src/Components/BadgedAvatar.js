@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Avatar, Badge } from '@mui/material';
+import { Avatar, Badge, Tooltip } from '@mui/material';
 
-const BadgedAvatar = ({ imageUrl, id, size = 40 }) => {
-  const { onlineUsers } = useSelector(state => state);
+const BadgedAvatar = ({ id, size = 40 }) => {
+  const { onlineUsers, users } = useSelector(state => state);
   const [badgeColor, setBadgeColor] = useState('offline');
 
-  const user = onlineUsers.find(_user => _user.id === id);
+  const onlineUser = onlineUsers.find(_user => _user.id === id);
+  const user = users.find(_user => _user.id === id);
 
   useEffect(() => {
-    if (user) {
+    if (onlineUser) {
       setBadgeColor('online');
     } else {
       setBadgeColor('offline');
@@ -17,18 +18,20 @@ const BadgedAvatar = ({ imageUrl, id, size = 40 }) => {
   }, [onlineUsers, id]);
 
   return (
-    <Badge
-      color={badgeColor}
-      overlap='circular'
-      badgeContent=' '
-      variant='dot'
-      anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-    >
-      <Avatar
-        sx={{ width: size, height: size }}
-        src={imageUrl}
-      />
-    </Badge>
+    <Tooltip title={`${user ? user.name : 'Anonymous'}`}>
+      <Badge
+        color={badgeColor}
+        overlap='circular'
+        badgeContent=' '
+        variant='dot'
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      >
+        <Avatar
+          sx={{ width: size, height: size }}
+          src={user ? user.avatar : ''}
+        />
+      </Badge>
+    </Tooltip>
   );
 };
 
