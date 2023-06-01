@@ -28,6 +28,7 @@ const AdminPanel = () => {
                 <Typography
                   component={RouterLink}
                   to={`/team/${team.id}`}
+                  sx={{ textDecoration: 'none' }}
                 >
                   {team.name}
                 </Typography>
@@ -39,7 +40,6 @@ const AdminPanel = () => {
                         <BadgedAvatar
                           key={user.id}
                           id={user.id}
-                          imageUrl={user.avatar}
                         />
                       );
                     })}

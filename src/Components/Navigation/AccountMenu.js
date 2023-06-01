@@ -32,10 +32,7 @@ const AccountMenu = () => {
           onClick={handleOpen}
           sx={{ p: 0 }}
         >
-          <BadgedAvatar
-            imageUrl={auth.avatar}
-            id={auth.id}
-          />
+          <BadgedAvatar id={auth.id} />
         </IconButton>
       </Tooltip>
       <Menu

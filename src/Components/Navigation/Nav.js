@@ -62,27 +62,33 @@ const Nav = () => {
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', sm: 'flex' } }}>
-            <Button
-              component={RouterLink}
-              sx={{ my: 2, color: 'white', display: 'block' }}
-              to={`/team/${auth.id}`}
-            >
-              Team
-            </Button>
-            <Button
-              component={RouterLink}
-              sx={{ my: 2, color: 'white', display: 'block' }}
-              to='/admin'
-            >
-              Admin
-            </Button>
-            <Button
-              component={RouterLink}
-              sx={{ my: 2, color: 'white', display: 'block' }}
-              to='/message'
-            >
-              Messages
-            </Button>
+            {!!auth.id && (
+              <Button
+                component={RouterLink}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+                to={`/team/${auth.teamId}`}
+              >
+                Team
+              </Button>
+            )}
+            {!!auth.id && auth.isTeamLead && (
+              <Button
+                component={RouterLink}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+                to='/admin'
+              >
+                Admin
+              </Button>
+            )}
+            {!!auth.id && (
+              <Button
+                component={RouterLink}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+                to='/message'
+              >
+                Messages
+              </Button>
+            )}
           </Box>
 
           {!!auth.id && <Notification />}
