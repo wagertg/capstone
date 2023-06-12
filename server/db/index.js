@@ -4,6 +4,8 @@ const Team = require('./Team');
 const Comment = require('./Comment');
 const Notification = require('./Notification');
 const Message = require('./Message');
+const Project = require ('./Project');
+const Task = require ('./Task');
 
 User.belongsTo(Team);
 Team.hasMany(User);
@@ -15,6 +17,9 @@ Comment.belongsTo(User);
 User.hasMany(Comment);
 Message.belongsTo(User, { as: 'from' });
 Message.belongsTo(User, { as: 'to' });
+
+Project.hasMany(Task);
+Task.belongsTo(Project);
 
 const syncAndSeed = async () => {
   await conn.sync({ force: true });
