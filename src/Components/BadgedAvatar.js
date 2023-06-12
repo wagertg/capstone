@@ -25,6 +25,7 @@ const BadgedAvatar = ({ id, size = 40 }) => {
         badgeContent=' '
         variant='dot'
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        sx={{ mr: 1 }}
       >
         <Avatar
           sx={{ width: size, height: size }}

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, Routes, Route, useLocation } from 'react-router-dom';
 import Home from './Home';
@@ -19,15 +19,40 @@ import {
   sendMessage
 } from '../store';
 
+import { IconButton, Snackbar, Stack } from '@mui/material';
+
+import { Close } from '@mui/icons-material';
+import BadgedAvatar from './BadgedAvatar';
+
 const App = () => {
   const { auth } = useSelector(state => state);
+  const [open, setOpen] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState('');
   const dispatch = useDispatch();
   const location = useLocation();
   const prevAuth = useRef({});
   const prevLocation = useRef('/');
 
-  console.log(`current location: ${location.pathname}`);
-  console.log(`previous location: ${prevLocation.current}`);
+  const showSnackBar = newMessage => {
+    setNotificationMessage(
+      <Stack
+        spacing={4}
+        direction='row'
+      >
+        <BadgedAvatar id={newMessage.user.id} />
+        {`${newMessage.user.name} is now ${newMessage.type.toLowerCase()}`}
+      </Stack>
+    );
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   useEffect(() => {
     dispatch(loginWithToken());
@@ -63,6 +88,7 @@ const App = () => {
             dispatch(sendMessage(message));
           } else {
             dispatch(message);
+            showSnackBar(message);
           }
         }
         if (message.status && message.status === 'online') {
@@ -112,6 +138,17 @@ const App = () => {
           />
         </Routes>
       </div>
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message={notificationMessage}
+        action={
+          <IconButton onClick={handleClose}>
+            <Close />
+          </IconButton>
+        }
+      />
     </div>
   );
 };
