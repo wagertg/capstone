@@ -8,7 +8,7 @@ const Message = conn.define("message", {
     defaultValue: UUIDV4,
   },
   content: {
-    type: STRING,
+    type: TEXT,
     allowNull: false,
     validate: {
       notEmpty: true,
@@ -16,9 +16,20 @@ const Message = conn.define("message", {
   },
   toId: {
     type: UUID,
+    allowNull: true,
   },
   fromId: {
     type: UUID,
+    allowNull: false,
+  },
+  isRead: {
+    type: BOOLEAN,
+    allowNull: true,
+    defaultValue: false,
+  },
+  teamId: {
+    type: UUID,
+    allowNull: true,
   },
 });
 

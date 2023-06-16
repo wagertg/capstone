@@ -22,4 +22,38 @@ app.post("/", isLoggedIn, async (req, res, next) => {
   }
 });
 
+app.put("/:id/read", isLoggedIn, async (req, res, next) => {
+  try {
+    const message = await req.user.readMessage(req.params.id);
+    res.send(message);
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+app.post("/team", isLoggedIn, async (req, res, next) => {
+  try {
+    res.status(201).send(await req.user.sendTeamMessage(req.body.content));
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+app.get("/team", isLoggedIn, async (req, res, next) => {
+  try {
+    res.send(await req.user.getTeamMessages());
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+app.put("/team/:id/read", isLoggedIn, async (req, res, next) => {
+  try {
+    const message = await req.user.readTeamMessage(req.params.id);
+    res.send(message);
+  } catch (ex) {
+    next(ex);
+  }
+});
+
 module.exports = app;
