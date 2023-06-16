@@ -1,5 +1,5 @@
 const conn = require("./conn");
-const { UUID, UUIDV4, STRING } = conn.Sequelize;
+const { UUID, UUIDV4, STRING, TEXT } = conn.Sequelize;
 
 const Team = conn.define("team", {
   id: {
@@ -15,6 +15,9 @@ const Team = conn.define("team", {
     validate: {
       notEmpty: true,
     },
+  },
+  avatar: {
+    type: TEXT,
   },
 });
 
