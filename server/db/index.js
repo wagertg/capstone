@@ -17,13 +17,17 @@ Comment.belongsTo(User);
 User.hasMany(Comment);
 Message.belongsTo(User, { as: 'from' });
 Message.belongsTo(User, { as: 'to' });
-
+Team.hasMany(Message);
+Message.belongsTo(Team);
 Project.hasMany(Task);
 Task.belongsTo(Project);
 
 const syncAndSeed = async () => {
   await conn.sync({ force: true });
-  const dream = await Team.create({ name: 'Dream' });
+  const dream = await Team.create({
+    name: 'Dream',
+    avatar: 'https://api.dicebear.com/6.x/shapes/svg?seed=Jasper'
+  });
   const [moe, lucy, larry, ethyl] = await Promise.all([
     User.create({
       name: 'Moe M',

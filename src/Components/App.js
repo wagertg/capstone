@@ -16,7 +16,11 @@ import {
   fetchUsers,
   fetchTeams,
   fetchMessages,
-  sendMessage
+  sendMessage,
+  readMessage,
+  fetchTeamMessages,
+  sendTeamMessage,
+  readTeamMessage
 } from '../store';
 
 import { IconButton, Snackbar, Stack } from '@mui/material';
@@ -81,6 +85,7 @@ const App = () => {
       dispatch(fetchUsers());
       dispatch(fetchTeams());
       dispatch(fetchMessages());
+      dispatch(fetchTeamMessages());
 
       window.socket = new WebSocket(
         window.location.origin.replace('http', 'ws')
@@ -98,12 +103,19 @@ const App = () => {
         if (message.type) {
           if (message.type === 'SEND_MESSAGE') {
             dispatch(sendMessage(message));
+          } else if (message.type === 'READ_MESSAGE') {
+            dispatch(readMessage(message.id));
+          } else if (message.type === 'SEND_TEAM_MESSAGE') {
+            dispatch(sendTeamMessage(message));
+          } else if (message.type === 'READ_TEAM_MESSAGE') {
+            dispatch(readTeamMessage(message.id));
           } else {
             dispatch(message);
             console.log(message);
             showSnackBar(message);
           }
         }
+
         if (message.status && message.status === 'online') {
           dispatch(fetchOnlineUsers());
         }
