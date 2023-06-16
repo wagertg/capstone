@@ -3,6 +3,7 @@ const { STRING, UUID, UUIDV4, TEXT, BOOLEAN } = conn.Sequelize;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const JWT = process.env.JWT;
+const socketMap = require('../SocketMap');
 
 const User = conn.define('user', {
   id: {
@@ -109,12 +110,22 @@ User.authenticate = async function ({ username, password }) {
   throw error;
 };
 
-User.prototype.sendMessage = function (toId, content) {
-  return conn.models.message.create({
+User.prototype.sendMessage = async function (toId, content) {
+  const message = await conn.models.message.create({
     content: content,
     fromId: this.id,
     toId: toId
   });
+  const notification = await conn.models.notification.create({
+    type: 'MESSAGE_STATUS',
+    message: 'new message',
+    subjectId: message.id,
+    userId: toId
+  });
+  const toUser = socketMap[toId];
+  if (toUser) toUser.socket.send({ type: 'ADD_NOTIFICATION', notification });
+
+  return message;
 };
 
 User.prototype.messagesForUser = function () {

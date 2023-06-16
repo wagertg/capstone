@@ -34,15 +34,27 @@ const App = () => {
   const prevLocation = useRef('/');
 
   const showSnackBar = newMessage => {
-    setNotificationMessage(
-      <Stack
-        spacing={4}
-        direction='row'
-      >
-        <BadgedAvatar id={newMessage.user.id} />
-        {`${newMessage.user.name} is now ${newMessage.type.toLowerCase()}`}
-      </Stack>
-    );
+    if (newMessage.type === 'ONLINE' || 'OFFLINE') {
+      setNotificationMessage(
+        <Stack
+          spacing={4}
+          direction='row'
+        >
+          <BadgedAvatar id={newMessage.user.id} />
+          {`${newMessage.user.name} is now ${newMessage.type.toLowerCase()}`}
+        </Stack>
+      );
+    } else {
+      /* setNotificationMessage(
+        <Stack
+          spacing={4}
+          direction='row'
+        >
+          <BadgedAvatar id={newMessage.user.id} />
+          {`${newMessage.user.name} is now ${newMessage.type.toLowerCase()}`}
+        </Stack>
+      ); */
+    }
     setOpen(true);
   };
 
@@ -88,6 +100,7 @@ const App = () => {
             dispatch(sendMessage(message));
           } else {
             dispatch(message);
+            console.log(message);
             showSnackBar(message);
           }
         }
@@ -139,6 +152,11 @@ const App = () => {
         </Routes>
       </div>
       <Snackbar
+        ContentProps={{
+          sx: {
+            background: 'gray'
+          }
+        }}
         open={open}
         autoHideDuration={6000}
         onClose={handleClose}

@@ -9,7 +9,9 @@ import {
   Dialog,
   DialogTitle,
   List,
-  ListItem
+  ListItem,
+  Typography,
+  Stack
 } from '@mui/material';
 
 import {
@@ -17,9 +19,10 @@ import {
   NotificationsActive,
   NotificationsNone
 } from '@mui/icons-material';
+import BadgedAvatar from './BadgedAvatar';
 
 const Notification = () => {
-  const { notifications } = useSelector(state => state);
+  const { notifications, messages, users } = useSelector(state => state);
   const [openDialog, setOpenDialog] = useState(false);
   const dispatch = useDispatch();
 
@@ -46,9 +49,31 @@ const Notification = () => {
         <DialogTitle>Your Notifications</DialogTitle>
         <List>
           {notifications.map(notification => {
-            return (
-              <ListItem key={notification.id}>{notification.message}</ListItem>
+            const message = messages.find(
+              _message => _message.id === notification.subjectId
             );
+            if (message) {
+              const user = users.find(_users => _users.id === message.fromId);
+              return (
+                <ListItem key={notification.id}>
+                  {!!user && (
+                    <Stack
+                      spacing={4}
+                      direction='row'
+                    >
+                      <BadgedAvatar id={user.id} />
+                      <Typography>{`sent a ${notification.message}`}</Typography>
+                    </Stack>
+                  )}
+                </ListItem>
+              );
+            } else {
+              return (
+                <ListItem key={notification.id}>
+                  <Typography>{`loading`}</Typography>
+                </ListItem>
+              );
+            }
           })}
         </List>
       </Dialog>

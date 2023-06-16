@@ -4,8 +4,8 @@ const Team = require('./Team');
 const Comment = require('./Comment');
 const Notification = require('./Notification');
 const Message = require('./Message');
-const Project = require ('./Project');
-const Task = require ('./Task');
+const Project = require('./Project');
+const Task = require('./Task');
 
 User.belongsTo(Team);
 Team.hasMany(User);
@@ -53,15 +53,18 @@ const syncAndSeed = async () => {
       avatar: 'https://api.dicebear.com/6.x/thumbs/svg?seed=ethyl'
     })
   ]);
-  await Notification.create({
-    type: 'PROJECT_STATUS',
-    message: 'done',
-    userId: lucy.id
-  });
-  await Promise.all([
+
+  const [toMoe, toEthyl] = await Promise.all([
     Message.create({ content: 'hey moe!', fromId: lucy.id, toId: moe.id }),
     Message.create({ content: 'hello ethyl', fromId: moe.id, toId: ethyl.id })
   ]);
+
+  await Notification.create({
+    type: 'MESSAGE_STATUS',
+    message: 'new message',
+    userId: moe.id,
+    subjectId: toMoe.id
+  });
 
   return {
     users: {
