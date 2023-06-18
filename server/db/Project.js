@@ -11,6 +11,13 @@ const Project = conn.define('project', {
     primaryKey: true,
     defaultValue: UUIDV4
   },
+  title: {
+    type: STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
+  },
   startDate: {
     type: STRING,
     allowNull: false,
@@ -42,6 +49,9 @@ const Project = conn.define('project', {
   notes: {
     type: TEXT
   },
+  isArchieved: {
+    type: BOOLEAN
+  }
   // assignedUser: {
   //   allowNull: false,
   //   validate: {
