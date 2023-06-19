@@ -32,6 +32,10 @@ const syncAndSeed = async () => {
       name: 'Dream',
       avatar: 'https://api.dicebear.com/6.x/shapes/svg?seed=Jasper'
     });
+    const nova = await Team.create({
+      name: 'Nova',
+      avatar: 'https://api.dicebear.com/6.x/shapes/svg?seed=Jasper'
+    });
     const [moe, lucy, larry, ethyl] = await Promise.all([
       User.create({
         name: 'Moe M',
@@ -119,7 +123,8 @@ const syncAndSeed = async () => {
     await Notification.create({
       type: 'PROJECT_STATUS',
       message: 'done',
-      userId: lucy.id
+      userId: lucy.id,
+      subjectId: ProjectA.id
     });
 
     return {

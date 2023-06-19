@@ -49,7 +49,7 @@ const Notification = () => {
         <DialogTitle>Your Notifications</DialogTitle>
         <List>
           {notifications.map(notification => {
-            const message = messages.find(
+            const message = messages.individualMessages.find(
               _message => _message.id === notification.subjectId
             );
             if (message) {
