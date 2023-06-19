@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import NavMenu from './Navigation/NavMenu';
 
 import {
   IconButton,
@@ -10,17 +9,20 @@ import {
   Dialog,
   DialogTitle,
   List,
-  ListItem
+  ListItem,
+  Typography,
+  Stack,
+  Chip
 } from '@mui/material';
 
-import {
-  Notifications,
-  NotificationsActive,
-  NotificationsNone
-} from '@mui/icons-material';
+import { Notifications, Clear, ClearAll } from '@mui/icons-material';
+import BadgedAvatar from './BadgedAvatar';
+import { removeAllNotifications, removeNotification } from '../store';
 
 const Notification = () => {
-  const { notifications } = useSelector(state => state);
+  const { notifications, messages, users, projects } = useSelector(
+    state => state
+  );
   const [openDialog, setOpenDialog] = useState(false);
   const dispatch = useDispatch();
 
@@ -47,11 +49,69 @@ const Notification = () => {
         <DialogTitle>Your Notifications</DialogTitle>
         <List>
           {notifications.map(notification => {
-            return (
-              <ListItem key={notification.id}>{notification.message}</ListItem>
-            );
+            if (notification.type === 'MESSAGE_STATUS') {
+              const message = messages.individualMessages.find(
+                _message => _message.id === notification.subjectId
+              );
+              if (message) {
+                const user = users.find(_users => _users.id === message.fromId);
+                return (
+                  <ListItem key={notification.id}>
+                    {!!user && (
+                      <Stack
+                        spacing={1}
+                        direction='row'
+                      >
+                        <BadgedAvatar id={user.id} />
+                        <Typography>{`${user.name} ${notification.message}`}</Typography>
+                        <IconButton
+                          onClick={() =>
+                            dispatch(removeNotification(notification.id))
+                          }
+                        >
+                          <Clear />
+                        </IconButton>
+                      </Stack>
+                    )}
+                  </ListItem>
+                );
+              }
+            }
+            if (notification.type === 'PROJECT_STATUS') {
+              const project = projects.find(
+                _project => _project.id === notification.subjectId
+              );
+              if (project) {
+                return (
+                  <ListItem key={notification.id}>
+                    {
+                      <Stack
+                        spacing={4}
+                        direction='row'
+                      >
+                        <Typography>{`${project.title} ${notification.message}`}</Typography>
+                        <IconButton
+                          onClick={() =>
+                            dispatch(removeNotification(notification.id))
+                          }
+                        >
+                          <Clear />
+                        </IconButton>
+                      </Stack>
+                    }
+                  </ListItem>
+                );
+              }
+            }
           })}
         </List>
+        <Chip
+          color='primary'
+          icon={<ClearAll />}
+          label='Clear All'
+          onClick={() => dispatch(removeAllNotifications())}
+          sx={{ m: 1 }}
+        />
       </Dialog>
     </Box>
   );

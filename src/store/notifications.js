@@ -4,6 +4,9 @@ const notifications = (state = [], action) => {
   if (action.type === 'SET_NOTIFICATIONS') {
     return action.notifications;
   }
+  if (action.type === 'ADD_NOTIFICATION') {
+    return [...state, action.notification];
+  }
   if (action.type === 'REMOVE_NOTIFICATIONS') {
     return [];
   }

@@ -17,6 +17,14 @@ const Notification = conn.define('notification', {
     validate: {
       notEmpty: true
     }
+  },
+  subjectId: {
+    type: UUID,
+    allowNull: false,
+
+    validate: {
+      notEmpty: true
+    }
   }
 });
 
