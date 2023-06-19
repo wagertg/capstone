@@ -117,12 +117,22 @@ User.prototype.sendMessage = async function (toId, content) {
     toId: toId
   });
 
+  const notification = await conn.models.notification.create({
+    type: 'MESSAGE_STATUS',
+    message: 'sent a new message',
+    subjectId: message.id,
+    userId: toId
+  });
+
   const toUser = socketMap[toId];
-  if (toUser)
+  if (toUser) {
     toUser.socket.send(
       JSON.stringify({ type: 'NEW_INDIVIDUAL_MESSAGE', message })
     );
-
+    toUser.socket.send(
+      JSON.stringify({ type: 'ADD_NOTIFICATION', notification })
+    );
+  }
   return message;
 };
 

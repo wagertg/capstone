@@ -61,11 +61,11 @@ const Notification = () => {
                   <ListItem key={notification.id}>
                     {!!user && (
                       <Stack
-                        spacing={4}
+                        spacing={1}
                         direction='row'
                       >
                         <BadgedAvatar id={user.id} />
-                        <Typography>{`sent a ${notification.message}`}</Typography>
+                        <Typography>{`${user.name} ${notification.message}`}</Typography>
                       </Stack>
                     )}
                   </ListItem>

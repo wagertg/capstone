@@ -33,7 +33,7 @@ import { Close } from '@mui/icons-material';
 import BadgedAvatar from './BadgedAvatar';
 
 const App = () => {
-  const { auth } = useSelector(state => state);
+  const { auth, users } = useSelector(state => state);
   const [open, setOpen] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState('');
   const dispatch = useDispatch();
@@ -52,16 +52,6 @@ const App = () => {
           {`${newMessage.user.name} is now ${newMessage.type.toLowerCase()}`}
         </Stack>
       );
-    } else {
-      /* setNotificationMessage(
-        <Stack
-          spacing={4}
-          direction='row'
-        >
-          <BadgedAvatar id={newMessage.user.id} />
-          {`${newMessage.user.name} is now ${newMessage.type.toLowerCase()}`}
-        </Stack>
-      ); */
     }
     setOpen(true);
   };
