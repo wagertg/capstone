@@ -8,6 +8,9 @@ import Team from './Team';
 import CreateAccount from './CreateAccount';
 import AdminPanel from './AdminPanel';
 import Message from './Message';
+import Projects from './Projects';
+import ProjectArchieve from './ProjectArchieve';
+import Project from './Project';
 import {
   loginWithToken,
   fetchNotifications,
@@ -20,7 +23,8 @@ import {
   readMessage,
   fetchTeamMessages,
   sendTeamMessage,
-  readTeamMessage
+  readTeamMessage,
+  fetchProjects
 } from '../store';
 
 import { IconButton, Snackbar, Stack } from '@mui/material';
@@ -86,6 +90,7 @@ const App = () => {
       dispatch(fetchTeams());
       dispatch(fetchMessages());
       dispatch(fetchTeamMessages());
+      dispatch(fetchProjects());
 
       window.socket = new WebSocket(
         window.location.origin.replace('http', 'ws')
@@ -160,6 +165,18 @@ const App = () => {
           <Route
             path='/message'
             element={<Message />}
+          />
+          <Route
+            path='/projects'
+            element={<Projects />}
+          />
+          <Route
+            path='/projects/:id'
+            element={<Project />}
+          />
+          <Route
+            path='/projects/archieved'
+            element={<ProjectArchieve />}
           />
         </Routes>
       </div>
