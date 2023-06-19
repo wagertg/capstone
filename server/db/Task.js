@@ -1,64 +1,56 @@
-const conn = require('./conn');
-const { STRING, UUID, UUIDV4, TEXT, BOOLEAN, ENUM } = conn.Sequelize;
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const JWT = process.env.JWT;
+const conn = require("./conn");
+const { STRING, UUID, UUIDV4, TEXT, BOOLEAN, ENUM, DATE } = conn.Sequelize;
 
-
-const Task = conn.define('task', {
+const Task = conn.define("task", {
   id: {
     type: UUID,
     primaryKey: true,
-    defaultValue: UUIDV4
+    defaultValue: UUIDV4,
   },
   title: {
     type: STRING,
     allowNull: false,
     validate: {
-      notEmpty: true
-    }
+      notEmpty: true,
+    },
   },
   startDate: {
     type: STRING,
     allowNull: false,
     validate: {
-      notEmpty: true
-    }
+      notEmpty: true,
+    },
   },
   deadline: {
     type: STRING,
-    allowNull: false, 
+    allowNull: false,
     validate: {
       notEmpty: true,
-    }
+    },
   },
   priority: {
     type: ENUM("Low", "High"),
     allowNull: false,
     validate: {
       notEmpty: true,
-    }
+    },
   },
   userStatus: {
     type: ENUM("Not started", "In progress", "Stuck!", "Completed"),
     allowNull: false,
     validate: {
       notEmpty: true,
-    }
+    },
   },
   notes: {
-    type: TEXT
+    type: TEXT,
   },
   // assignedUser: {
   //   allowNull: false,
   //   validate: {
   //     notEmpty: true,
-  //   } 
+  //   }
   // },
 });
-
-
-
-
 
 module.exports = Task;

@@ -11,16 +11,15 @@ User.belongsTo(Team);
 Team.hasMany(User);
 Notification.belongsTo(User);
 User.hasMany(Notification);
-Comment.belongsTo(User);
-//Comment.belongsTo(Task);
-//Task.hasMany(Comment);
-User.hasMany(Comment);
 Message.belongsTo(User, { as: "from" });
 Message.belongsTo(User, { as: "to" });
 Team.hasMany(Message);
 Message.belongsTo(Team);
 Project.hasMany(Task);
 Task.belongsTo(Project);
+Project.belongsTo(Team);
+User.hasMany(Project);
+Project.belongsTo(User);
 
 const syncAndSeed = async () => {
   await conn.sync({ force: true });
@@ -66,7 +65,7 @@ const syncAndSeed = async () => {
       userStatus: "25% completed",
       // taskID: TaskOne.id,
       // taskID: TaskTwo.id,
-    })
+    });
     const ProjectB = await Project.create({
       title: "ProjectB",
       startDate: "7/4/23",
@@ -75,7 +74,7 @@ const syncAndSeed = async () => {
       userStatus: "0% completed",
       // taskID: TaskThree.id,
       // taskID: TaskFour.id,
-    })
+    });
     // const TaskOne = await Task.create({
     //   startDate: "6/13/23",
     //   deadline: "6/14/23",
@@ -108,9 +107,13 @@ const syncAndSeed = async () => {
     });
     await Promise.all([
       Message.create({ content: "hey moe!", fromId: lucy.id, toId: moe.id }),
-      Message.create({ content: "hello ethyl", fromId: moe.id, toId: ethyl.id }),
+      Message.create({
+        content: "hello ethyl",
+        fromId: moe.id,
+        toId: ethyl.id,
+      }),
     ]);
-  
+
     return {
       users: {
         moe,
@@ -119,10 +122,8 @@ const syncAndSeed = async () => {
         ethyl,
       },
     };
-  
-    
-  }catch(error){
-    console.log(error)
+  } catch (error) {
+    console.log(error);
   }
 };
 
@@ -133,6 +134,6 @@ module.exports = {
   Notification,
   Comment,
   Message,
-  Task, 
+  Task,
   Project,
 };

@@ -16,5 +16,6 @@ app.use("/api/team", require("./api/team"));
 app.use("/api/users", require("./api/users"));
 app.use("/api/comments", require("./api/comments"));
 app.use("/api/messages", require("./api/messages"));
+app.use("/api/projects", require("./api/projects"));
 
 module.exports = app;

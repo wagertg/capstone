@@ -7,6 +7,8 @@ import notifications from "./notifications";
 import onlineUsers from "./onlineUsers";
 import users from "./users";
 import messages from "./messages";
+import projects from "./projects";
+import tasks from "./tasks";
 
 const reducer = combineReducers({
   auth,
@@ -15,6 +17,8 @@ const reducer = combineReducers({
   onlineUsers,
   users,
   messages,
+  projects,
+  tasks,
 });
 
 const store = createStore(reducer, applyMiddleware(thunk, logger));
@@ -27,3 +31,5 @@ export * from "./notifications";
 export * from "./onlineUsers";
 export * from "./users";
 export * from "./messages";
+export * from "./projects";
+export * from "./tasks";
