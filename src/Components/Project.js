@@ -1,56 +1,37 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useParams, useNavigate } from 'react-router-dom'; 
-// import { editProject } from '../store';
-
-
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useParams, useNavigate } from "react-router-dom";
+import EditProject from "./EditProject";
+import { Typography, Paper, Box } from "@mui/material";
 
 const Project = () => {
-  const {project} = useSelector(state => state)
-  const params = useParams()
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-
-
-  const save = async(ev) => {
-    ev.preventDefault();
-    try{
-        await dispatch(editProject({title, startDate, deadline, priority, userStatus, notes})); 
-        navigate('./admin/drinks');
-      }
-    catch(error){
-      setErrors(error);
-      console.log(error)
-    }
-  }
-
-  if (!project) {
-    return null
-  }
-
+  const { projects } = useSelector((state) => state);
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   return (
-    <div>
-      <h2> { project.title } </h2>
-      <ul>
-        <li> Start Date: {project.startDate} </li>
-        <li> Deadline: {project.deadline} </li>
-        <li> Priority: {project.priority} </li>
-        <li> Status: {project.userStatus} </li>
-      </ul>
-
-      <h6>edit project</h6>
-      <form onSubmit={save}>
-        <label>Title:
-          <input value={title} onChange={setTitle(ev.target.value)} placeholder={'placeholder'}></input>
-        </label>
-
-      </form>
-      
-
-    </div>
-
-    // the edit menu is how the project would be archieved **
+    <Box p={4}>
+      <EditProject />
+      <Box mt={4}>
+        {projects
+          .filter((project) => project.id === id)
+          .map((project) => (
+            <Paper key={project.id} elevation={3} sx={{ p: 3, mt: 2 }}>
+              <Typography variant="h5" gutterBottom>
+                {project.title}
+              </Typography>
+              <Typography>
+                Start Date: {new Date(project.startDate).toLocaleDateString()}
+              </Typography>
+              <Typography>
+                Deadline: {new Date(project.deadline).toLocaleDateString()}
+              </Typography>
+              <Typography>Priority: {project.priority}</Typography>
+            </Paper>
+          ))}
+      </Box>
+    </Box>
   );
 };
 

@@ -18,14 +18,14 @@ const Project = conn.define("project", {
     },
   },
   startDate: {
-    type: STRING,
+    type: DATE,
     allowNull: false,
     validate: {
       notEmpty: true,
     },
   },
   deadline: {
-    type: STRING,
+    type: DATE,
     allowNull: false,
     validate: {
       notEmpty: true,
