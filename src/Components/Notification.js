@@ -22,7 +22,9 @@ import {
 import BadgedAvatar from './BadgedAvatar';
 
 const Notification = () => {
-  const { notifications, messages, users } = useSelector(state => state);
+  const { notifications, messages, users, projects } = useSelector(
+    state => state
+  );
   const [openDialog, setOpenDialog] = useState(false);
   const dispatch = useDispatch();
 
@@ -49,30 +51,45 @@ const Notification = () => {
         <DialogTitle>Your Notifications</DialogTitle>
         <List>
           {notifications.map(notification => {
-            const message = messages.individualMessages.find(
-              _message => _message.id === notification.subjectId
-            );
-            if (message) {
-              const user = users.find(_users => _users.id === message.fromId);
-              return (
-                <ListItem key={notification.id}>
-                  {!!user && (
-                    <Stack
-                      spacing={4}
-                      direction='row'
-                    >
-                      <BadgedAvatar id={user.id} />
-                      <Typography>{`sent a ${notification.message}`}</Typography>
-                    </Stack>
-                  )}
-                </ListItem>
+            if (notification.type === 'MESSAGE_STATUS') {
+              const message = messages.individualMessages.find(
+                _message => _message.id === notification.subjectId
               );
-            } else {
-              return (
-                <ListItem key={notification.id}>
-                  <Typography>{`loading`}</Typography>
-                </ListItem>
+              if (message) {
+                const user = users.find(_users => _users.id === message.fromId);
+                return (
+                  <ListItem key={notification.id}>
+                    {!!user && (
+                      <Stack
+                        spacing={4}
+                        direction='row'
+                      >
+                        <BadgedAvatar id={user.id} />
+                        <Typography>{`sent a ${notification.message}`}</Typography>
+                      </Stack>
+                    )}
+                  </ListItem>
+                );
+              }
+            }
+            if (notification.type === 'PROJECT_STATUS') {
+              const project = projects.find(
+                _project => _project.id === notification.subjectId
               );
+              if (project) {
+                return (
+                  <ListItem key={notification.id}>
+                    {
+                      <Stack
+                        spacing={4}
+                        direction='row'
+                      >
+                        <Typography>{`${project.title} ${notification.message}`}</Typography>
+                      </Stack>
+                    }
+                  </ListItem>
+                );
+              }
             }
           })}
         </List>

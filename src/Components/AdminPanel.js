@@ -39,6 +39,7 @@ const AdminPanel = () => {
     <Box>
       <Typography variant='h2'>Teams</Typography>
       <Chip
+        color='primary'
         icon={showForm ? <Cancel /> : <Add />}
         label={showForm ? 'Cancel' : 'Create Team'}
         onClick={() => setShowForm(!showForm)}
