@@ -3,6 +3,7 @@ const { STRING, UUID, UUIDV4, TEXT, BOOLEAN } = conn.Sequelize;
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const JWT = process.env.JWT;
+const socketMap = require("../SocketMap");
 
 const User = conn.define("user", {
   id: {
@@ -109,12 +110,20 @@ User.authenticate = async function ({ username, password }) {
   throw error;
 };
 
-User.prototype.sendMessage = function (toId, content) {
-  return conn.models.message.create({
+User.prototype.sendMessage = async function (toId, content) {
+  const message = await conn.models.message.create({
     content: content,
     fromId: this.id,
     toId: toId,
   });
+
+  const toUser = socketMap[toId];
+  if (toUser)
+    toUser.socket.send(
+      JSON.stringify({ type: "NEW_INDIVIDUAL_MESSAGE", message })
+    );
+
+  return message;
 };
 
 User.prototype.messagesForUser = function () {
@@ -166,11 +175,37 @@ User.prototype.getTeamMessages = async function () {
 
 User.prototype.sendTeamMessage = async function (content) {
   const team = await this.getTeam();
-  return conn.models.message.create({
+
+  let message = await conn.models.message.create({
     content: content,
     fromId: this.id,
     teamId: team.id,
   });
+
+  message = await conn.models.message.findByPk(message.id, {
+    include: [
+      {
+        model: User,
+        as: "from",
+        attributes: ["username", "id"],
+      },
+      {
+        model: User,
+        as: "to",
+        attributes: ["username", "id"],
+      },
+    ],
+  });
+  const teamMembers = await team.getUsers();
+  teamMembers.forEach((member) => {
+    if (member.id !== this.id && socketMap[member.id]) {
+      socketMap[member.id].socket.send(
+        JSON.stringify({ type: "NEW_TEAM_MESSAGE", message })
+      );
+    }
+  });
+
+  return message;
 };
 
 User.prototype.readTeamMessage = async function (messageId) {

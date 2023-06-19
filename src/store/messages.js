@@ -9,6 +9,12 @@ const messages = (state = initialState, action) => {
   if (action.type === "SET_MESSAGES") {
     return { ...state, individualMessages: action.messages };
   }
+  if (action.type === "NEW_INDIVIDUAL_MESSAGE") {
+    return {
+      ...state,
+      individualMessages: [...state.individualMessages, action.message],
+    };
+  }
   if (action.type === "SEND_MESSAGE") {
     return {
       ...state,
@@ -25,6 +31,12 @@ const messages = (state = initialState, action) => {
   }
   if (action.type === "SET_TEAM_MESSAGES") {
     return { ...state, teamMessages: action.messages };
+  }
+  if (action.type === "NEW_TEAM_MESSAGE") {
+    return {
+      ...state,
+      teamMessages: [...state.teamMessages, action.message],
+    };
   }
   if (action.type === "SEND_TEAM_MESSAGE") {
     return { ...state, teamMessages: [...state.teamMessages, action.message] };

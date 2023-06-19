@@ -1,9 +1,9 @@
-import React from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import NavMenu from './NavMenu';
-import AccountMenu from './AccountMenu';
-import Notification from '../Notification';
+import React from "react";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import NavMenu from "./NavMenu";
+import AccountMenu from "./AccountMenu";
+import Notification from "../Notification";
 
 import {
   AppBar,
@@ -12,60 +12,60 @@ import {
   Typography,
   IconButton,
   Box,
-  Button
-} from '@mui/material';
+  Button,
+} from "@mui/material";
 
-import { Login, AppRegistration } from '@mui/icons-material';
+import { Login, AppRegistration } from "@mui/icons-material";
 
 const Nav = () => {
-  const { auth } = useSelector(state => state);
+  const { auth } = useSelector((state) => state);
   const navigate = useNavigate();
 
   return (
-    <AppBar position='static'>
-      <Container maxWidth='xl'>
+    <AppBar position="static">
+      <Container maxWidth="xl">
         <Toolbar disableGutters>
           <NavMenu />
           <Typography
-            variant='h6'
+            variant="h6"
             noWrap
             component={RouterLink}
-            to='/'
+            to="/"
             sx={{
               mr: 2,
-              display: { xs: 'flex', sm: 'none' },
+              display: { xs: "flex", sm: "none" },
               flexGrow: 1,
-              fontFamily: 'monospace',
+              fontFamily: "monospace",
               fontWeight: 700,
-              color: 'inherit',
-              textDecoration: 'none'
+              color: "inherit",
+              textDecoration: "none",
             }}
           >
             PP+
           </Typography>
 
           <Typography
-            variant='h6'
+            variant="h6"
             noWrap
             component={RouterLink}
-            to='/'
+            to="/"
             sx={{
               mr: 2,
-              display: { xs: 'none', sm: 'flex' },
-              fontFamily: 'monospace',
+              display: { xs: "none", sm: "flex" },
+              fontFamily: "monospace",
               fontWeight: 700,
-              color: 'inherit',
-              textDecoration: 'none'
+              color: "inherit",
+              textDecoration: "none",
             }}
           >
             Project Planner Plus
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', sm: 'flex' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", sm: "flex" } }}>
             {!!auth.id && (
               <Button
                 component={RouterLink}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                sx={{ my: 2, color: "white", display: "block" }}
                 to={`/team/${auth.teamId}`}
               >
                 Team
@@ -74,8 +74,8 @@ const Nav = () => {
             {!!auth.id && auth.isTeamLead && (
               <Button
                 component={RouterLink}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-                to='/admin'
+                sx={{ my: 2, color: "white", display: "block" }}
+                to="/admin"
               >
                 Admin
               </Button>
@@ -83,10 +83,19 @@ const Nav = () => {
             {!!auth.id && (
               <Button
                 component={RouterLink}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-                to='/message'
+                sx={{ my: 2, color: "white", display: "block" }}
+                to="/message"
               >
                 Messages
+              </Button>
+            )}
+            {!!auth.id && (
+              <Button
+                component={RouterLink}
+                sx={{ my: 2, color: "white", display: "block" }}
+                to="/projects"
+              >
+                Projects
               </Button>
             )}
           </Box>
@@ -94,29 +103,17 @@ const Nav = () => {
           {!!auth.id && <Notification />}
           {!!auth.id && <AccountMenu />}
           {!auth.id && (
-            <IconButton
-              color='inherit'
-              onClick={() => navigate('/login')}
-            >
-              <Login fontSize='small' />
-              <Typography
-                margin={0.5}
-                variant='body1'
-              >
+            <IconButton color="inherit" onClick={() => navigate("/login")}>
+              <Login fontSize="small" />
+              <Typography margin={0.5} variant="body1">
                 Login
               </Typography>
             </IconButton>
           )}
           {!auth.id && (
-            <IconButton
-              color='inherit'
-              onClick={() => navigate('/register')}
-            >
-              <AppRegistration fontSize='small' />
-              <Typography
-                margin={0.5}
-                variant='body1'
-              >
+            <IconButton color="inherit" onClick={() => navigate("/register")}>
+              <AppRegistration fontSize="small" />
+              <Typography margin={0.5} variant="body1">
                 Sign Up
               </Typography>
             </IconButton>
