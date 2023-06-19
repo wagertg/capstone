@@ -11,15 +11,13 @@ import {
   List,
   ListItem,
   Typography,
-  Stack
+  Stack,
+  Chip
 } from '@mui/material';
 
-import {
-  Notifications,
-  NotificationsActive,
-  NotificationsNone
-} from '@mui/icons-material';
+import { Notifications, Clear, ClearAll } from '@mui/icons-material';
 import BadgedAvatar from './BadgedAvatar';
+import { removeAllNotifications, removeNotification } from '../store';
 
 const Notification = () => {
   const { notifications, messages, users, projects } = useSelector(
@@ -66,6 +64,13 @@ const Notification = () => {
                       >
                         <BadgedAvatar id={user.id} />
                         <Typography>{`${user.name} ${notification.message}`}</Typography>
+                        <IconButton
+                          onClick={() =>
+                            dispatch(removeNotification(notification.id))
+                          }
+                        >
+                          <Clear />
+                        </IconButton>
                       </Stack>
                     )}
                   </ListItem>
@@ -85,6 +90,13 @@ const Notification = () => {
                         direction='row'
                       >
                         <Typography>{`${project.title} ${notification.message}`}</Typography>
+                        <IconButton
+                          onClick={() =>
+                            dispatch(removeNotification(notification.id))
+                          }
+                        >
+                          <Clear />
+                        </IconButton>
                       </Stack>
                     }
                   </ListItem>
@@ -93,6 +105,13 @@ const Notification = () => {
             }
           })}
         </List>
+        <Chip
+          color='primary'
+          icon={<ClearAll />}
+          label='Clear All'
+          onClick={() => dispatch(removeAllNotifications())}
+          sx={{ m: 1 }}
+        />
       </Dialog>
     </Box>
   );
