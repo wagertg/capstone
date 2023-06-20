@@ -2,8 +2,7 @@ const express = require("express");
 const app = express.Router();
 const { Project } = require("../db");
 
-
-app.get('/', async (req, res, next) => {
+app.get("/", async (req, res, next) => {
   try {
     res.send(await Project.findAll());
   } catch (ex) {
@@ -11,7 +10,7 @@ app.get('/', async (req, res, next) => {
   }
 });
 
-app.post('/', async (req, res, next) => {
+app.post("/", async (req, res, next) => {
   try {
     res.status(201).send(await Project.create(req.body));
   } catch (ex) {
@@ -19,7 +18,7 @@ app.post('/', async (req, res, next) => {
   }
 });
 
-app.delete('/:id', async (req, res, next) => {
+app.delete("/:id", async (req, res, next) => {
   try {
     const project = await Project.findByPk(req.params.id);
     await project.destroy();
@@ -29,7 +28,7 @@ app.delete('/:id', async (req, res, next) => {
   }
 });
 
-app.put('/:id', async (req, res, next) => {
+app.put("/:id", async (req, res, next) => {
   try {
     const project = await Project.findByPk(req.params.id);
     await project.update(req.body);
@@ -39,5 +38,14 @@ app.put('/:id', async (req, res, next) => {
   }
 });
 
+app.put("/:id/team", async (req, res, next) => {
+  try {
+    const project = await Project.findByPk(req.params.id);
+    await project.update({ teamId: req.body.teamId });
+    res.send(project);
+  } catch (ex) {
+    next(ex);
+  }
+});
 
 module.exports = app;

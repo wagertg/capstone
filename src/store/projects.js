@@ -15,6 +15,15 @@ const projects = (state = [], action) => {
       return project;
     });
   }
+  if (action.type === "ASSIGN_TEAM") {
+    state = state.map((project) => {
+      if (project.id === action.projectId) {
+        return { ...project, teamId: action.teamId };
+      }
+      return project;
+    });
+  }
+
   if (action.type === "DESTROY_PROJECT") {
     state = state.filter((project) => {
       return project.id !== action.project.id;
@@ -48,6 +57,15 @@ export const destroyProject = (project) => {
   return async (dispatch) => {
     await axios.delete(`api/projects/${project.id}`);
     dispatch({ type: "DESTROY_PROJECT", project });
+  };
+};
+
+export const assignTeamToProject = (projectId, teamId) => {
+  return async (dispatch) => {
+    await axios.put(`api/projects/${projectId}/team`, {
+      teamId,
+    });
+    dispatch({ type: "ASSIGN_TEAM", projectId, teamId });
   };
 };
 

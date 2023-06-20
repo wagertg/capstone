@@ -17,13 +17,16 @@ const CreateProject = () => {
   const [startDate, setStartDate] = useState("");
   const [deadline, setDeadline] = useState("");
   const [priority, setPriority] = useState("");
+  const [notes, setNotes] = useState("");
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const create = async (ev) => {
     ev.preventDefault();
-    await dispatch(createProject({ title, startDate, deadline, priority }));
+    await dispatch(
+      createProject({ title, notes, startDate, deadline, priority })
+    );
     handleClose();
     navigate("/projects");
   };
@@ -33,7 +36,9 @@ const CreateProject = () => {
 
   return (
     <>
-      <Button onClick={handleOpen}>Create Project</Button>
+      <Button variant="contained" color="primary" onClick={handleOpen}>
+        Create Project
+      </Button>
       <Modal open={open} onClose={handleClose}>
         <Box
           sx={{
@@ -55,6 +60,13 @@ const CreateProject = () => {
               placeholder="Title"
               value={title}
               onChange={(ev) => setTitle(ev.target.value)}
+            />
+            <TextField
+              fullWidth
+              margin="normal"
+              placeholder="Description"
+              value={notes}
+              onChange={(ev) => setNotes(ev.target.value)}
             />
             <TextField
               fullWidth
