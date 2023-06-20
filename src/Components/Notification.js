@@ -46,7 +46,12 @@ const Notification = () => {
         open={openDialog}
         onClose={() => setOpenDialog(false)}
       >
-        <DialogTitle>Your Notifications</DialogTitle>
+        <DialogTitle>
+          Your Notifications
+          <IconButton onClick={() => setOpenDialog(false)}>
+            <Clear color='primary' />
+          </IconButton>
+        </DialogTitle>
         <List>
           {notifications.map(notification => {
             if (notification.type === 'MESSAGE_STATUS') {
@@ -61,9 +66,18 @@ const Notification = () => {
                       <Stack
                         spacing={1}
                         direction='row'
+                        alignItems={'center'}
                       >
                         <BadgedAvatar id={user.id} />
-                        <Typography>{`${user.name} ${notification.message}`}</Typography>
+                        <Typography
+                          variant='body1'
+                          component={RouterLink}
+                          to={`/message`}
+                          sx={{
+                            color: 'primary',
+                            textDecoration: 'none'
+                          }}
+                        >{`${user.name} ${notification.message}`}</Typography>
                         <IconButton
                           onClick={() =>
                             dispatch(removeNotification(notification.id))
@@ -89,9 +103,18 @@ const Notification = () => {
                       <Stack
                         spacing={1}
                         direction='row'
+                        alignItems={'center'}
                       >
                         <BadgedAvatar id={user.id} />
-                        <Typography>{`${user.name} ${notification.message}`}</Typography>
+                        <Typography
+                          variant='body1'
+                          component={RouterLink}
+                          to={`/message`}
+                          sx={{
+                            color: 'primary',
+                            textDecoration: 'none'
+                          }}
+                        >{`${user.name} ${notification.message}`}</Typography>
                         <IconButton
                           onClick={() =>
                             dispatch(removeNotification(notification.id))
@@ -116,6 +139,7 @@ const Notification = () => {
                       <Stack
                         spacing={4}
                         direction='row'
+                        alignItems={'center'}
                       >
                         <Typography>{`${project.title} ${notification.message}`}</Typography>
                         <IconButton
