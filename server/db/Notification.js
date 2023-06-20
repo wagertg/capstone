@@ -7,7 +7,7 @@ const Notification = conn.define('notification', {
     defaultValue: UUIDV4
   },
   type: {
-    type: ENUM('PROJECT_STATUS', 'MESSAGE_STATUS'),
+    type: ENUM('PROJECT_STATUS', 'MESSAGE_STATUS', 'TEAM_MESSAGE_STATUS'),
     allowNull: false
   },
   message: {

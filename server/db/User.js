@@ -117,21 +117,24 @@ User.prototype.sendMessage = async function (toId, content) {
     toId: toId
   });
 
-  const notification = await conn.models.notification.create({
-    type: 'MESSAGE_STATUS',
-    message: 'sent a new message',
-    subjectId: message.id,
-    userId: toId
-  });
-
   const toUser = socketMap[toId];
+
   if (toUser) {
     toUser.socket.send(
       JSON.stringify({ type: 'NEW_INDIVIDUAL_MESSAGE', message })
     );
-    toUser.socket.send(
-      JSON.stringify({ type: 'ADD_NOTIFICATION', notification })
-    );
+    if (toUser.user.messageNotification) {
+      const notification = await conn.models.notification.create({
+        type: 'MESSAGE_STATUS',
+        message: 'sent a new message',
+        subjectId: message.id,
+        userId: toId
+      });
+
+      toUser.socket.send(
+        JSON.stringify({ type: 'ADD_NOTIFICATION', notification })
+      );
+    }
   }
   return message;
 };
@@ -207,11 +210,27 @@ User.prototype.sendTeamMessage = async function (content) {
     ]
   });
   const teamMembers = await team.getUsers();
-  teamMembers.forEach(member => {
+  teamMembers.forEach(async member => {
     if (member.id !== this.id && socketMap[member.id]) {
       socketMap[member.id].socket.send(
         JSON.stringify({ type: 'NEW_TEAM_MESSAGE', message })
       );
+
+      if (
+        socketMap[member.id] &&
+        socketMap[member.id].user.messageNotification
+      ) {
+        const notification = await conn.models.notification.create({
+          type: 'TEAM_MESSAGE_STATUS',
+          message: 'sent a new team message',
+          subjectId: message.id,
+          userId: member.id
+        });
+
+        socketMap[member.id].socket.send(
+          JSON.stringify({ type: 'ADD_NOTIFICATION', notification })
+        );
+      }
     }
   });
 

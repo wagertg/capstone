@@ -11,6 +11,7 @@ import Message from './Message';
 import Projects from './Projects';
 import ProjectArchieve from './ProjectArchieve';
 import Project from './Project';
+import Profile from './Profile';
 import {
   loginWithToken,
   fetchNotifications,
@@ -42,7 +43,8 @@ const App = () => {
   const prevLocation = useRef('/');
 
   const showSnackBar = newMessage => {
-    if (newMessage.type === 'ONLINE' || 'OFFLINE') {
+    if (newMessage.type === 'ONLINE' || newMessage.type === 'OFFLINE') {
+      console.log(newMessage);
       setNotificationMessage(
         <Stack
           spacing={4}
@@ -52,8 +54,8 @@ const App = () => {
           {`${newMessage.user.name} is now ${newMessage.type.toLowerCase()}`}
         </Stack>
       );
+      setOpen(true);
     }
-    setOpen(true);
   };
 
   const handleClose = (event, reason) => {
@@ -159,6 +161,10 @@ const App = () => {
           <Route
             path='/projects'
             element={<Projects />}
+          />
+          <Route
+            path='/profile/:id'
+            element={<Profile />}
           />
           <Route
             path='/projects/:id'

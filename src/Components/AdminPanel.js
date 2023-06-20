@@ -81,7 +81,18 @@ const AdminPanel = () => {
                       return (
                         <Box key={user.id}>
                           <BadgedAvatar id={user.id} />
-                          <Typography variant='body2'>{user.name}</Typography>
+                          <Typography
+                            variant='body2'
+                            component={RouterLink}
+                            to={`/profile/${user.id}`}
+                            sx={{
+                              display: 'block',
+                              color: 'primary',
+                              textDecoration: 'none'
+                            }}
+                          >
+                            {user.name}
+                          </Typography>
                         </Box>
                       );
                     })}

@@ -2,6 +2,7 @@ const express = require('express');
 const app = express.Router();
 const { User } = require('../db');
 const { isLoggedIn } = require('./middleware');
+const socketMap = require('../SocketMap');
 
 module.exports = app;
 
@@ -38,6 +39,20 @@ app.put('/', isLoggedIn, async (req, res, next) => {
     const user = req.user;
     //define the properties a user can change
     await user.update(req.body);
+
+    const users = await User.findAll({
+      attributes: ['id', 'name', 'avatar', 'teamId']
+    });
+
+    Object.values(socketMap).forEach(value => {
+      value.socket.send(
+        JSON.stringify({
+          type: 'SET_USERS',
+          users
+        })
+      );
+    });
+
     res.send(user);
   } catch (ex) {
     next(ex);

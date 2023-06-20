@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, Link as RouterLink } from 'react-router-dom';
 import {
   AvatarGroup,
   Box,
@@ -82,7 +82,18 @@ const Team = () => {
             return (
               <Box key={user.id}>
                 <BadgedAvatar id={user.id} />
-                <Typography variant='body2'>{user.name}</Typography>
+                <Typography
+                  variant='body2'
+                  component={RouterLink}
+                  to={`/profile/${user.id}`}
+                  sx={{
+                    display: 'block',
+                    color: 'primary',
+                    textDecoration: 'none'
+                  }}
+                >
+                  {user.name}
+                </Typography>
                 <IconButton onClick={() => remove(user.id)}>
                   <PersonRemove />
                 </IconButton>
@@ -101,7 +112,18 @@ const Team = () => {
               <Grid key={user.id}>
                 <Card>
                   <BadgedAvatar id={user.id} />
-                  <Typography variant='body2'>{user.name}</Typography>
+                  <Typography
+                    variant='body2'
+                    component={RouterLink}
+                    to={`/profile/${user.id}`}
+                    sx={{
+                      display: 'block',
+                      color: 'primary',
+                      textDecoration: 'none'
+                    }}
+                  >
+                    {user.name}
+                  </Typography>
                   <IconButton onClick={() => add(user.id)}>
                     <PersonAdd />
                   </IconButton>
