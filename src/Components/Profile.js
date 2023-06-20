@@ -114,9 +114,7 @@ const Profile = () => {
       </Grid>
 
       <Grid xs={6}>
-        <Typography variant='h5'>{`Team: ${
-          isPublic && user ? user.teamId : auth.teamId
-        }`}</Typography>
+        <Typography variant='h5'>{`Placeholder:`}</Typography>
       </Grid>
 
       {!isPublic && editForm && (
