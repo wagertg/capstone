@@ -77,6 +77,34 @@ const Notification = () => {
                 );
               }
             }
+            if (notification.type === 'TEAM_MESSAGE_STATUS') {
+              const message = messages.teamMessages.find(
+                _message => _message.id === notification.subjectId
+              );
+              if (message) {
+                const user = users.find(_users => _users.id === message.fromId);
+                return (
+                  <ListItem key={notification.id}>
+                    {!!user && (
+                      <Stack
+                        spacing={1}
+                        direction='row'
+                      >
+                        <BadgedAvatar id={user.id} />
+                        <Typography>{`${user.name} ${notification.message}`}</Typography>
+                        <IconButton
+                          onClick={() =>
+                            dispatch(removeNotification(notification.id))
+                          }
+                        >
+                          <Clear />
+                        </IconButton>
+                      </Stack>
+                    )}
+                  </ListItem>
+                );
+              }
+            }
             if (notification.type === 'PROJECT_STATUS') {
               const project = projects.find(
                 _project => _project.id === notification.subjectId
