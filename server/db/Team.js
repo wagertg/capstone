@@ -11,7 +11,6 @@ const Team = conn.define("team", {
   name: {
     type: STRING,
     allowNull: false,
-
     validate: {
       notEmpty: true,
     },

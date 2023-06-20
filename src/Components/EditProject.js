@@ -18,6 +18,7 @@ const EditProject = () => {
   const [startDate, setStartDate] = useState("");
   const [deadline, setDeadline] = useState("");
   const [priority, setPriority] = useState("");
+  const [notes, setNotes] = useState("");
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ const EditProject = () => {
     const project = projects.find((project) => project.id === id);
     if (project) {
       setTitle(project.title);
+      setNotes(project.notes);
       setStartDate(formatDate(project.startDate));
       setDeadline(formatDate(project.deadline));
       setPriority(project.priority);
@@ -47,7 +49,9 @@ const EditProject = () => {
 
   const edit = async (ev) => {
     ev.preventDefault();
-    await dispatch(editProject({ title, startDate, deadline, priority, id }));
+    await dispatch(
+      editProject({ title, notes, startDate, deadline, priority, id })
+    );
     handleClose();
     navigate("/projects");
   };
@@ -57,7 +61,9 @@ const EditProject = () => {
 
   return (
     <>
-      <Button onClick={handleOpen}>Edit Project</Button>
+      <Button variant="contained" color="primary" onClick={handleOpen}>
+        Edit Project
+      </Button>
       <Modal open={open} onClose={handleClose}>
         <Box
           sx={{
@@ -78,6 +84,12 @@ const EditProject = () => {
               margin="normal"
               value={title}
               onChange={(ev) => setTitle(ev.target.value)}
+            />
+            <TextField
+              fullWidth
+              margin="normal"
+              value={notes}
+              onChange={(ev) => setNotes(ev.target.value)}
             />
             <TextField
               fullWidth
@@ -105,7 +117,12 @@ const EditProject = () => {
               <MenuItem value={"Low"}>Low</MenuItem>
               <MenuItem value={"High"}>High</MenuItem>
             </Select>
-            <Button variant="contained" color="primary" type="submit">
+            <Button
+              sx={{ mt: 2 }}
+              variant="contained"
+              color="success"
+              type="submit"
+            >
               Create
             </Button>
           </form>
