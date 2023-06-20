@@ -8,7 +8,8 @@ import {
   Typography,
   IconButton,
   Chip,
-  TextField
+  TextField,
+  CardContent
 } from '@mui/material';
 import BadgedAvatar from './BadgedAvatar';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
@@ -23,11 +24,13 @@ import { updateTeam, updateUser } from '../store';
 
 const Team = () => {
   const { id } = useParams();
-  const { users, auth, teams } = useSelector(state => state);
+  const { users, teams, projects } = useSelector(state => state);
   const [showForm, setShowForm] = useState(false);
   const [name, setName] = useState('');
   const dispatch = useDispatch();
   const team = teams.find(_team => _team.id === id);
+  let project;
+  if (team) project = projects.find(_project => _project.teamId === team.id);
 
   useEffect(() => {
     if (team) {
@@ -72,6 +75,36 @@ const Team = () => {
             <Send />
           </IconButton>
         </form>
+      )}
+
+      <Typography variant='h5'>Project:</Typography>
+      {project ? (
+        <Card>
+          <CardContent>
+            <Typography
+              variant='h6'
+              color='text.secondary'
+            >
+              <RouterLink to={`/projects/${project.id}`}>
+                {project.title}
+              </RouterLink>
+            </Typography>
+            <Typography color='text.secondary'>
+              Start Date: {new Date(project.startDate).toLocaleDateString()}
+            </Typography>
+            <Typography color='text.secondary'>
+              Deadline: {new Date(project.deadline).toLocaleDateString()}
+            </Typography>
+            <Chip
+              label={`Priority: ${project.priority}`}
+              variant='outlined'
+              color='primary'
+              style={{ marginTop: 10 }}
+            />
+          </CardContent>
+        </Card>
+      ) : (
+        <Typography variant='h5'>None</Typography>
       )}
 
       <Typography variant='h4'> Edit Team</Typography>

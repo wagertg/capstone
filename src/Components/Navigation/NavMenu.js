@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-
+import { useSelector } from 'react-redux';
 import { Menu, MenuItem, Box, IconButton, Link } from '@mui/material';
 import { Menu as MenuIcon } from '@mui/icons-material/';
 
 const NavMenu = () => {
+  const { auth } = useSelector(state => state);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleOpen = ev => {
@@ -52,6 +53,41 @@ const NavMenu = () => {
             Home
           </Link>
         </MenuItem>
+
+        {!!auth.id && auth.isTeamLead && (
+          <MenuItem onClick={handleClose}>
+            <Link
+              component={RouterLink}
+              underline='none'
+              to='/admin'
+            >
+              Admin
+            </Link>
+          </MenuItem>
+        )}
+
+        {!!auth.id && (
+          <MenuItem onClick={handleClose}>
+            <Link
+              component={RouterLink}
+              underline='none'
+              to='/message'
+            >
+              Messages
+            </Link>
+          </MenuItem>
+        )}
+        {!!auth.id && (
+          <MenuItem onClick={handleClose}>
+            <Link
+              component={RouterLink}
+              underline='none'
+              to='/projects'
+            >
+              Projects
+            </Link>
+          </MenuItem>
+        )}
       </Menu>
     </Box>
   );

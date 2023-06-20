@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { fetchPublicProfile, updateAuth, addFriend } from '../store';
+import { useParams, Link } from 'react-router-dom';
+import { updateAuth } from '../store';
 import BadgedAvatar from './BadgedAvatar';
 
 import {
@@ -14,14 +14,15 @@ import {
   Stack,
   Card,
   Divider,
-  ToggleButton
+  CardContent,
+  Chip
 } from '@mui/material';
 import { Cancel, Upload, ToggleOff, ToggleOn } from '@mui/icons-material';
 import Grid from '@mui/material/Unstable_Grid2';
 
 const Profile = () => {
   const { id } = useParams();
-  const { auth, users } = useSelector(state => state);
+  const { auth, users, teams, projects } = useSelector(state => state);
   const [isPublic, setIsPublic] = useState(true);
   const [editForm, setEditForm] = useState(false);
   const [username, setUsername] = useState('');
@@ -32,6 +33,11 @@ const Profile = () => {
   const dispatch = useDispatch();
   const ref = useRef();
   const user = users.find(_user => _user.id === id);
+  let team, project;
+  if (user) {
+    team = teams.find(_team => _team.id === user.teamId);
+    if (team) project = projects.find(_project => _project.teamId === team.id);
+  }
 
   useEffect(() => {
     if (auth.id && auth.id === id) {
@@ -114,7 +120,33 @@ const Profile = () => {
       </Grid>
 
       <Grid xs={6}>
-        <Typography variant='h5'>{`Placeholder:`}</Typography>
+        <Typography variant='h5'>Project:</Typography>
+        {project ? (
+          <Card>
+            <CardContent>
+              <Typography
+                variant='h6'
+                color='text.secondary'
+              >
+                <Link to={`/projects/${project.id}`}>{project.title}</Link>
+              </Typography>
+              <Typography color='text.secondary'>
+                Start Date: {new Date(project.startDate).toLocaleDateString()}
+              </Typography>
+              <Typography color='text.secondary'>
+                Deadline: {new Date(project.deadline).toLocaleDateString()}
+              </Typography>
+              <Chip
+                label={`Priority: ${project.priority}`}
+                variant='outlined'
+                color='primary'
+                style={{ marginTop: 10 }}
+              />
+            </CardContent>
+          </Card>
+        ) : (
+          <Typography variant='h5'>None</Typography>
+        )}
       </Grid>
 
       {!isPublic && editForm && (
