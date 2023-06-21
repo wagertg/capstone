@@ -15,14 +15,14 @@ const Task = conn.define("task", {
     },
   },
   startDate: {
-    type: STRING,
+    type: DATE,
     allowNull: false,
     validate: {
       notEmpty: true,
     },
   },
   deadline: {
-    type: STRING,
+    type: DATE,
     allowNull: false,
     validate: {
       notEmpty: true,
@@ -36,7 +36,7 @@ const Task = conn.define("task", {
     },
   },
   userStatus: {
-    type: ENUM("Not started", "In progress", "Stuck!", "Completed"),
+    type: ENUM("To Do", "In Progress", "Completed"),
     allowNull: false,
     validate: {
       notEmpty: true,
@@ -45,12 +45,6 @@ const Task = conn.define("task", {
   notes: {
     type: TEXT,
   },
-  // assignedUser: {
-  //   allowNull: false,
-  //   validate: {
-  //     notEmpty: true,
-  //   }
-  // },
 });
 
 module.exports = Task;
