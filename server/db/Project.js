@@ -57,12 +57,6 @@ const Project = conn.define("project", {
   isArchieved: {
     type: BOOLEAN,
   },
-  // assignedUser: {
-  //   allowNull: false,
-  //   validate: {
-  //     notEmpty: true,
-  //   }
-  // },
 });
 
 module.exports = Project;

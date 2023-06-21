@@ -33,39 +33,78 @@ const projects = (state = [], action) => {
 };
 
 export const fetchProjects = () => {
-  return async (dispatch) => {
-    const response = await axios.get("/api/projects");
-    dispatch({ type: "SET_PROJECTS", projects: response.data });
+  return async (dispatch, getState) => {
+    const token = window.localStorage.getItem("token");
+    if (getState().auth.id) {
+      const response = await axios.get("/api/projects", {
+        headers: {
+          authorization: token,
+        },
+      });
+      dispatch({ type: "SET_PROJECTS", projects: response.data });
+    }
   };
 };
 
 export const createProject = (project) => {
-  return async (dispatch) => {
-    const response = await axios.post(`api/projects`, project);
-    dispatch({ type: "CREATE_PROJECT", project: response.data });
+  return async (dispatch, getState) => {
+    const token = window.localStorage.getItem("token");
+    if (getState().auth.id) {
+      const response = await axios.post(`api/projects`, project, {
+        headers: {
+          authorization: token,
+        },
+      });
+      dispatch({ type: "CREATE_PROJECT", project: response.data });
+    }
   };
 };
 
 export const editProject = (project) => {
-  return async (dispatch) => {
-    const response = await axios.put(`api/projects/${project.id}`, project);
-    dispatch({ type: "EDIT_PROJECT", project: response.data });
+  return async (dispatch, getState) => {
+    const token = window.localStorage.getItem("token");
+    if (getState().auth.id) {
+      const response = await axios.put(`api/projects/${project.id}`, project, {
+        headers: {
+          authorization: token,
+        },
+      });
+      dispatch({ type: "EDIT_PROJECT", project: response.data });
+    }
   };
 };
 
 export const destroyProject = (project) => {
-  return async (dispatch) => {
-    await axios.delete(`api/projects/${project.id}`);
-    dispatch({ type: "DESTROY_PROJECT", project });
+  return async (dispatch, getState) => {
+    const token = window.localStorage.getItem("token");
+    if (getState().auth.id) {
+      await axios.delete(`api/projects/${project.id}`, {
+        headers: {
+          authorization: token,
+        },
+      });
+      dispatch({ type: "DESTROY_PROJECT", project });
+    }
   };
 };
 
 export const assignTeamToProject = (projectId, teamId) => {
-  return async (dispatch) => {
-    await axios.put(`api/projects/${projectId}/team`, {
-      teamId,
-    });
-    dispatch({ type: "ASSIGN_TEAM", projectId, teamId });
+  return async (dispatch, getState) => {
+    const token = window.localStorage.getItem("token");
+    if (getState().auth.id) {
+      await axios.put(
+        `api/projects/${projectId}/team`,
+        {
+          teamId,
+        },
+        {
+          headers: {
+            authorization: token,
+          },
+        }
+      );
+      dispatch({ type: "ASSIGN_TEAM", projectId, teamId });
+    }
   };
 };
 
