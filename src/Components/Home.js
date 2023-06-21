@@ -1,11 +1,28 @@
 import React from 'react';
 
+import { Typography, Box } from '@mui/material';
+import { CalendarMonth } from '@mui/icons-material';
+
 const Home = () => {
   return (
-    <div>
-      <h1>Home</h1>
-      <div>Welcome !!</div>
-    </div>
+    <Box textAlign='center'>
+      <Typography
+        color='primary'
+        variant='h1'
+      >
+        Welcome to
+      </Typography>
+      <Typography
+        color='primary'
+        variant='h1'
+      >
+        Project Planner Plus
+      </Typography>
+      <CalendarMonth
+        color='primary'
+        sx={{ fontSize: 100 }}
+      />
+    </Box>
   );
 };
 
