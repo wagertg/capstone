@@ -117,6 +117,17 @@ User.prototype.sendMessage = async function (toId, content) {
     toId: toId
   });
 
+  const user = await conn.models.user.findByPk(toId);
+
+  if (user.messageNotification) {
+    await conn.models.notification.create({
+      type: 'MESSAGE_STATUS',
+      message: 'sent a new message',
+      subjectId: message.id,
+      userId: toId
+    });
+  }
+
   const toUser = socketMap[toId];
 
   if (toUser) {
@@ -124,13 +135,11 @@ User.prototype.sendMessage = async function (toId, content) {
       JSON.stringify({ type: 'NEW_INDIVIDUAL_MESSAGE', message })
     );
     if (toUser.user.messageNotification) {
-      const notification = await conn.models.notification.create({
-        type: 'MESSAGE_STATUS',
-        message: 'sent a new message',
-        subjectId: message.id,
-        userId: toId
+      const notification = await conn.models.notification.findAll({
+        where: {
+          subjectId: message.id
+        }
       });
-
       toUser.socket.send(
         JSON.stringify({ type: 'ADD_NOTIFICATION', notification })
       );
@@ -211,6 +220,15 @@ User.prototype.sendTeamMessage = async function (content) {
   });
   const teamMembers = await team.getUsers();
   teamMembers.forEach(async member => {
+    if (member.messageNotification) {
+      await conn.models.notification.create({
+        type: 'TEAM_MESSAGE_STATUS',
+        message: 'sent a new message',
+        subjectId: message.id,
+        userId: member.id
+      });
+    }
+
     if (member.id !== this.id && socketMap[member.id]) {
       socketMap[member.id].socket.send(
         JSON.stringify({ type: 'NEW_TEAM_MESSAGE', message })
@@ -220,11 +238,10 @@ User.prototype.sendTeamMessage = async function (content) {
         socketMap[member.id] &&
         socketMap[member.id].user.messageNotification
       ) {
-        const notification = await conn.models.notification.create({
-          type: 'TEAM_MESSAGE_STATUS',
-          message: 'sent a new team message',
-          subjectId: message.id,
-          userId: member.id
+        const notification = await conn.models.notification.findAll({
+          where: {
+            subjectId: message.id
+          }
         });
 
         socketMap[member.id].socket.send(

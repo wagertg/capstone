@@ -1,23 +1,16 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { logout } from '../../store';
 import BadgedAvatar from '../BadgedAvatar';
-import {
-  Menu,
-  MenuItem,
-  Box,
-  IconButton,
-  Link,
-  Avatar,
-  Tooltip
-} from '@mui/material';
+import { Menu, MenuItem, Box, IconButton, Link, Tooltip } from '@mui/material';
 import { Logout } from '@mui/icons-material';
 
 const AccountMenu = () => {
   const { auth } = useSelector(state => state);
   const [anchorEl, setAnchorEl] = useState(null);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleOpen = ev => {
     setAnchorEl(ev.currentTarget);
@@ -68,7 +61,10 @@ const AccountMenu = () => {
             <Link
               component='button'
               underline='none'
-              onClick={() => dispatch(logout())}
+              onClick={() => {
+                dispatch(logout());
+                navigate('/');
+              }}
             >
               Logout
             </Link>

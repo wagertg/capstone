@@ -1,10 +1,10 @@
-const express = require("express");
+const express = require('express');
 const app = express.Router();
-const { Project, Task, User, Notification } = require("../db");
-const socketMap = require("../SocketMap");
-const { isLoggedIn } = require("./middleware");
+const { Project, Task, User, Notification } = require('../db');
+const socketMap = require('../SocketMap');
+const { isLoggedIn } = require('./middleware');
 
-app.get("/", isLoggedIn, async (req, res, next) => {
+app.get('/', isLoggedIn, async (req, res, next) => {
   try {
     res.send(await Project.findAll());
   } catch (ex) {
@@ -12,7 +12,7 @@ app.get("/", isLoggedIn, async (req, res, next) => {
   }
 });
 
-app.post("/", isLoggedIn, async (req, res, next) => {
+app.post('/', isLoggedIn, async (req, res, next) => {
   try {
     res.status(201).send(await Project.create(req.body));
   } catch (ex) {
@@ -20,7 +20,7 @@ app.post("/", isLoggedIn, async (req, res, next) => {
   }
 });
 
-app.delete("/:id", isLoggedIn, async (req, res, next) => {
+app.delete('/:id', isLoggedIn, async (req, res, next) => {
   try {
     const project = await Project.findByPk(req.params.id);
     await project.destroy();
@@ -30,31 +30,31 @@ app.delete("/:id", isLoggedIn, async (req, res, next) => {
   }
 });
 
-app.put("/:id", isLoggedIn, async (req, res, next) => {
+app.put('/:id', isLoggedIn, async (req, res, next) => {
   try {
     const project = await Project.findByPk(req.params.id);
     await project.update(req.body);
 
     const teamMembers = await User.findAll({
       where: {
-        teamId: project.teamId,
-      },
+        teamId: project.teamId
+      }
     });
 
-    teamMembers.forEach(async (member) => {
+    teamMembers.forEach(async member => {
       if (
         socketMap[member.id] &&
         socketMap[member.id].user.projectNotification
       ) {
         const notification = await Notification.create({
-          type: "PROJECT_STATUS",
-          message: "has been updated",
+          type: 'PROJECT_STATUS',
+          message: 'has been updated',
           subjectId: project.id,
-          userId: member.id,
+          userId: member.id
         });
 
         socketMap[member.id].socket.send(
-          JSON.stringify({ type: "ADD_NOTIFICATION", notification })
+          JSON.stringify({ type: 'ADD_NOTIFICATION', notification })
         );
       }
     });
@@ -65,31 +65,43 @@ app.put("/:id", isLoggedIn, async (req, res, next) => {
   }
 });
 
-app.put("/:id/team", isLoggedIn, async (req, res, next) => {
+app.put('/:id/team', isLoggedIn, async (req, res, next) => {
   try {
     const project = await Project.findByPk(req.params.id);
     await project.update({ teamId: req.body.teamId });
 
     const teamMembers = await User.findAll({
       where: {
-        teamId: project.teamId,
-      },
+        teamId: project.teamId
+      }
     });
+    console.log(
+      '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+    );
+    console.log(teamMembers);
 
-    teamMembers.forEach(async (member) => {
+    teamMembers.forEach(async member => {
+      if (member.projectNotification) {
+        await Notification.create({
+          type: 'PROJECT_STATUS',
+          message: 'has been assigned to your team',
+          subjectId: project.id,
+          userId: member.id
+        });
+      }
+
       if (
         socketMap[member.id] &&
         socketMap[member.id].user.projectNotification
       ) {
-        const notification = await Notification.create({
-          type: "PROJECT_STATUS",
-          message: "has been assigned to your team",
-          subjectId: project.id,
-          userId: member.id,
+        const notification = Notification.findAll({
+          where: {
+            subjectId: message.id
+          }
         });
 
         socketMap[member.id].socket.send(
-          JSON.stringify({ type: "ADD_NOTIFICATION", notification })
+          JSON.stringify({ type: 'ADD_NOTIFICATION', notification })
         );
       }
     });
@@ -100,12 +112,12 @@ app.put("/:id/team", isLoggedIn, async (req, res, next) => {
   }
 });
 
-app.get("/:id/tasks", isLoggedIn, async (req, res, next) => {
+app.get('/:id/tasks', isLoggedIn, async (req, res, next) => {
   try {
     const tasks = await Task.findAll({
       where: {
-        projectId: req.params.id,
-      },
+        projectId: req.params.id
+      }
     });
     res.send(tasks);
   } catch (ex) {
@@ -113,7 +125,7 @@ app.get("/:id/tasks", isLoggedIn, async (req, res, next) => {
   }
 });
 
-app.post("/:id/tasks", isLoggedIn, async (req, res, next) => {
+app.post('/:id/tasks', isLoggedIn, async (req, res, next) => {
   try {
     const project = await Project.findByPk(req.params.id);
     const user = await User.findByPk(req.body.userId);
@@ -129,13 +141,13 @@ app.post("/:id/tasks", isLoggedIn, async (req, res, next) => {
   }
 });
 
-app.delete("/:id/tasks/:taskId", isLoggedIn, async (req, res, next) => {
+app.delete('/:id/tasks/:taskId', isLoggedIn, async (req, res, next) => {
   try {
     const task = await Task.findOne({
       where: {
         id: req.params.taskId,
-        projectId: req.params.id,
-      },
+        projectId: req.params.id
+      }
     });
     if (task) {
       await task.destroy();
@@ -148,13 +160,13 @@ app.delete("/:id/tasks/:taskId", isLoggedIn, async (req, res, next) => {
   }
 });
 
-app.put("/:id/tasks/:taskId", isLoggedIn, async (req, res, next) => {
+app.put('/:id/tasks/:taskId', isLoggedIn, async (req, res, next) => {
   try {
     const task = await Task.findOne({
       where: {
         id: req.params.taskId,
-        projectId: req.params.id,
-      },
+        projectId: req.params.id
+      }
     });
     if (task) {
       const project = await Project.findByPk(req.params.id);
