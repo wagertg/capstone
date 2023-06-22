@@ -19,7 +19,7 @@ const CreateAccount = ({ prevLocation }) => {
   const create = ev => {
     ev.preventDefault();
     dispatch(register(credentials));
-    navigate(prevLocation);
+    navigate('/');
   };
 
   return (
