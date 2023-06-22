@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { register } from '../store';
 import { useDispatch } from 'react-redux';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { TextField, Button, Typography } from '@mui/material';
 
 const CreateAccount = ({ prevLocation }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [credentials, setCredentials] = useState({
     username: '',
     password: '',
