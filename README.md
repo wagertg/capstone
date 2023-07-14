@@ -1,14 +1,14 @@
 <h1 align="center">Project Management App 📊</h1>
 
 <p align="center">
-<a href="https://github.com/wagertg/myPortfolio"><img src="https://img.shields.io/badge/-Back%20to%20Portfolio-grey?style=flat"/></a>
+<a href="https://github.com/wagertg/Portfolio"><img src="https://img.shields.io/badge/-Back%20to%20Portfolio-grey?style=flat"/></a>
 <a href="https://www.linkedin.com/in/traviswager/"><img src="https://img.shields.io/badge/-LinkedIn-blue?style=flat&logo=LinkedIn&logoColor=white"/></a>
 <a href="mailto:traviswager@gmail.com"><img src="https://img.shields.io/badge/-Email-c14438?style=flat&logo=Gmail&logoColor=white"/></a>
 </p>
 
 ## 👨‍💻 About The Project
 
-Our Capstone Project aimed to design and implement a project management tool to enhance team collaboration, task organization, and project tracking. As an integral part of the team, my main contribution was the creation of a real-time messaging system and live notifications. This system greatly boosted communication within teams and assured immediate updates.
+Contributed to the development of a robust project management tool designed to enhance team collaboration and task organization. I spearheaded the creation of a real-time messaging system and live notifications feature, significantly improving intra-team communication and ensuring instant updates.
 
 ## 🛠️ Built With
 
