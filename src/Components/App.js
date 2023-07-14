@@ -43,6 +43,8 @@ const App = () => {
   const prevAuth = useRef({});
   const prevLocation = useRef("/");
 
+  // This function is responsible for displaying a snackbar notification based on the `newMessage` object received as an argument.
+
   const showSnackBar = (newMessage) => {
     if (newMessage.type === "ONLINE" || newMessage.type === "OFFLINE") {
       console.log(newMessage);
@@ -64,13 +66,22 @@ const App = () => {
     setOpen(false);
   };
 
+  // This action attempts to log in the user using the token stored in the local storage. It has an empty array, so it only runs once on component mount.
+
   useEffect(() => {
     dispatch(loginWithToken());
   }, []);
 
+  // Updates the prevLocation ref whenever the `location` object changes. The ref stores the previous location in the application, helping track navigation history.
+
   useEffect(() => {
     prevLocation.current = location.pathname;
   }, [location]);
+
+  // handles the login and logout scenarios based on changes in the auth object
+  // Dispatches actions to fetch data, establishes a WebSocket connection, and set up event listeners for different types of WebSocket messages.
+  //  Upon connection, it sends the user's token to the server through the WebSocket connection.
+  //  Handles incoming WebSocket messages and dispatches corresponding actions based on the message types.
 
   useEffect(() => {
     if (!prevAuth.current.id && auth.id) {
@@ -122,6 +133,8 @@ const App = () => {
       dispatch(removeAllNotifications());
     }
   }, [auth]);
+
+  // Updates the `prevAuth` and `prevLocation` refs after each render.
 
   useEffect(() => {
     prevAuth.current = auth;

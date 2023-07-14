@@ -1,9 +1,13 @@
 import axios from "axios";
 
+// Defines the initial state for the `messages` reducer, which consists of `individualMessages` and `teamMessages` arrays.
+
 const initialState = {
   individualMessages: [],
   teamMessages: [],
 };
+
+// handles different types of actions to update the state accordingly.
 
 const messages = (state = initialState, action) => {
   if (action.type === "SET_MESSAGES") {
@@ -51,6 +55,8 @@ const messages = (state = initialState, action) => {
   }
   return state;
 };
+
+// These are action creators defined for different message-related operations. These action creators dispatch actions based on the responses received from the server after making the corresponding HTTP requests using `axios`.
 
 export const fetchMessages = () => {
   return async (dispatch) => {

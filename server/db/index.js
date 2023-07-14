@@ -6,6 +6,8 @@ const Message = require("./Message");
 const Project = require("./Project");
 const Task = require("./Task");
 
+// Defining the relationships between the models
+
 User.belongsTo(Team);
 Team.hasMany(User);
 Notification.belongsTo(User);
@@ -22,9 +24,13 @@ Project.belongsTo(User);
 Task.belongsTo(User);
 User.hasMany(Task);
 
+// Function to synchronize the database and seed initial data
+
 const syncAndSeed = async () => {
   await conn.sync({ force: true });
   try {
+    // Create two teams: "Dream" and "Nova"
+
     const dream = await Team.create({
       name: "Dream",
       avatar: "https://api.dicebear.com/6.x/shapes/svg?seed=Jasper",
@@ -33,6 +39,9 @@ const syncAndSeed = async () => {
       name: "Nova",
       avatar: "https://api.dicebear.com/6.x/shapes/svg?seed=Jasper",
     });
+
+    // Create four users: Moe, Lucy, Larry, Ethyl, and associate them with their respective teams
+
     const [moe, lucy, larry, ethyl] = await Promise.all([
       User.create({
         name: "Moe M",
@@ -64,6 +73,9 @@ const syncAndSeed = async () => {
         teamId: dream.id,
       }),
     ]);
+
+    // Create two projects: ProjectA and ProjectB, associated with their respective teams
+
     const ProjectA = await Project.create({
       title: "ProjectA",
       notes:
@@ -84,6 +96,9 @@ const syncAndSeed = async () => {
       userStatus: "0% completed",
       teamId: nova.id,
     });
+
+    // Create six tasks, associated with the corresponding project and user
+
     const TaskOne = await Task.create({
       title: "Money strategy",
       startDate: "6/13/23",
@@ -138,6 +153,8 @@ const syncAndSeed = async () => {
       projectId: ProjectA.id,
       userId: lucy.id,
     });
+
+    // Create two messages between users
 
     const [toMoe, toEthyl] = await Promise.all([
       Message.create({ content: "hey moe!", fromId: lucy.id, toId: moe.id }),

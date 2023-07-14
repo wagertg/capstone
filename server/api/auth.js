@@ -1,12 +1,12 @@
-const express = require('express');
+const express = require("express");
 const app = express.Router();
-const { User } = require('../db');
-const { isLoggedIn } = require('./middleware');
-const socketMap = require('../SocketMap');
+const { User } = require("../db");
+const { isLoggedIn } = require("./middleware");
+const socketMap = require("../SocketMap");
 
 module.exports = app;
 
-app.post('/', async (req, res, next) => {
+app.post("/", async (req, res, next) => {
   try {
     res.send(await User.authenticate(req.body));
   } catch (ex) {
@@ -14,19 +14,19 @@ app.post('/', async (req, res, next) => {
   }
 });
 
-app.post('/register', async (req, res, next) => {
+app.post("/register", async (req, res, next) => {
   try {
     const user = await User.create({
       ...req.body,
-      avatar: `https://api.dicebear.com/6.x/thumbs/svg?seed=${req.body.username}`
+      avatar: `https://api.dicebear.com/6.x/thumbs/svg?seed=${req.body.username}`,
     });
-    res.send(user.generateToken());
+    res.send(user.generateToken()); // Generate and send an authentication token for the user
   } catch (ex) {
     next(ex);
   }
 });
 
-app.get('/', isLoggedIn, (req, res, next) => {
+app.get("/", isLoggedIn, (req, res, next) => {
   try {
     res.send(req.user);
   } catch (ex) {
@@ -34,21 +34,22 @@ app.get('/', isLoggedIn, (req, res, next) => {
   }
 });
 
-app.put('/', isLoggedIn, async (req, res, next) => {
+app.put("/", isLoggedIn, async (req, res, next) => {
   try {
     const user = req.user;
-    //define the properties a user can change
     await user.update(req.body);
 
     const users = await User.findAll({
-      attributes: ['id', 'name', 'avatar', 'teamId']
+      attributes: ["id", "name", "avatar", "teamId"],
     });
 
-    Object.values(socketMap).forEach(value => {
+    // Send updated user information to all connected sockets
+
+    Object.values(socketMap).forEach((value) => {
       value.socket.send(
         JSON.stringify({
-          type: 'SET_USERS',
-          users
+          type: "SET_USERS",
+          users,
         })
       );
     });
