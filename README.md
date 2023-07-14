@@ -22,6 +22,7 @@ This application was built utilizing a collection of technologies including but 
 * PostgreSQL
 * Sequelize
 * WebSocket
+* Material UI
 
 ## 📖 Features
 
