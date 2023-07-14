@@ -1,9 +1,8 @@
 <h1 align="center">Capstone - Project Management App 📊</h1>
 
 <p align="center">
-<a href="https://github.com/wagertg/capstone"><img src="https://img.shields.io/github/forks/wagertg/capstone?style=social"/></a>
-<a href="https://github.com/wagertg/capstone"><img src="https://img.shields.io/github/stars/wagertg/capstone?style=social"/></a>
-<a href="https://github.com/wagertg/capstone"><img src="https://img.shields.io/github/watchers/wagertg/capstone?style=social"/></a>
+<a href="https://www.linkedin.com/in/traviswager/"><img src="https://img.shields.io/badge/-LinkedIn-blue?style=flat&logo=LinkedIn&logoColor=white"/></a>
+<a href="mailto:traviswager@gmail.com"><img src="https://img.shields.io/badge/-Email-c14438?style=flat&logo=Gmail&logoColor=white"/></a>
 </p>
 
 ![Capstone](./Images/projectpioneer-3.jpg)
@@ -43,5 +42,3 @@ More detailed instructions are available in the INSTALL.md.
 
 For any additional information, please feel free to contact me or contribute to the project.
 
-<a href="https://www.linkedin.com/in/traviswager/"><img src="https://img.shields.io/badge/-LinkedIn-blue?style=flat&logo=LinkedIn&logoColor=white"/></a>
-<a href="mailto:traviswager@gmail.com"><img src="https://img.shields.io/badge/-Email-c14438?style=flat&logo=Gmail&logoColor=white"/></a>
