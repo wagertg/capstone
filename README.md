@@ -20,6 +20,8 @@ This application was built utilizing a collection of technologies including but 
 * Node.js
 * Express
 * PostgreSQL
+* Sequelize
+* WebSocket
 
 ## 📖 Features
 
