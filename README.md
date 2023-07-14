@@ -1,7 +1,7 @@
 <h1 align="center">Capstone - Project Management App 📊</h1>
 
 <p align="center">
-<a href="https://github.com/wagertg"><img src="https://img.shields.io/badge/-Back%20to%20Portfolio-grey?style=flat"/></a>
+<a href="https://github.com/wagertg/Portfolio"><img src="https://img.shields.io/badge/-Back%20to%20Portfolio-grey?style=flat"/></a>
 <a href="https://www.linkedin.com/in/traviswager/"><img src="https://img.shields.io/badge/-LinkedIn-blue?style=flat&logo=LinkedIn&logoColor=white"/></a>
 <a href="mailto:traviswager@gmail.com"><img src="https://img.shields.io/badge/-Email-c14438?style=flat&logo=Gmail&logoColor=white"/></a>
 </p>
