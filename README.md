@@ -1,4 +1,4 @@
-<h1 align="center">Capstone - Project Management App 📊</h1>
+<h1 align="center">Project Management App 📊</h1>
 
 <p align="center">
 <a href="https://github.com/wagertg/Portfolio"><img src="https://img.shields.io/badge/-Back%20to%20Portfolio-grey?style=flat"/></a>
@@ -30,7 +30,7 @@ This application was built utilizing a collection of technologies including but 
 * Task organization: Offers tools for categorizing and prioritizing tasks.
 * Project tracking: Allows team members and managers to monitor the progress of different projects.
 
-## 📸 Snapshot of the Project
+## 📸 Snapshots
 
 ![Capstone](./Screenshots/projectpioneer-3.jpg)
 
