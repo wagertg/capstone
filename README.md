@@ -5,11 +5,10 @@
 <a href="mailto:traviswager@gmail.com"><img src="https://img.shields.io/badge/-Email-c14438?style=flat&logo=Gmail&logoColor=white"/></a>
 </p>
 
-![Capstone](./Images/projectpioneer-3.jpg)
 
 ## 👨‍💻 About The Project
 
-Our Capstone Project aimed to design and implement a project management tool to enhance team collaboration, task organization, and project tracking. As an integral part of the development team, my main contribution was the creation of a real-time messaging system and live notifications. This system greatly boosted communication within teams and assured immediate updates.
+Our Capstone Project aimed to design and implement a project management tool to enhance team collaboration, task organization, and project tracking. As an integral part of the team, my main contribution was the creation of a real-time messaging system and live notifications. This system greatly boosted communication within teams and assured immediate updates.
 
 ## 🛠️ Built With
 
@@ -29,16 +28,19 @@ This application was built utilizing a collection of technologies including but 
 * Task organization: Offers tools for categorizing and prioritizing tasks.
 * Project tracking: Allows team members and managers to monitor the progress of different projects.
 
-## 🚀 Getting Started
+## 🚀 Have a Look
 
-To get a local copy up and running follow these steps:
+![Capstone](./Screenshots/projectpioneer-3.jpg)
 
-1. Clone the repository.
-2. Install NPM packages.
-3. Setup your local database.
-4. Start the application.
+---
 
-More detailed instructions are available in the INSTALL.md.
+![Capstone](./Screenshots/projectpioneer-4.jpg)
 
-For any additional information, please feel free to contact me or contribute to the project.
+---
+
+![Capstone](./Screenshots/projectpioneer-2.jpg)
+
+---
+
+![Capstone](./Screenshots/projectpioneer-1.jpg)
 
