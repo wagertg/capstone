@@ -27,10 +27,10 @@ This application was built utilizing a collection of technologies including but 
 
 ## 📖 Features
 
-* Real-time messaging system: Facilitates immediate communication among team members.
-* Live notifications: Ensures everyone is up-to-date with the latest project developments.
-* Task organization: Offers tools for categorizing and prioritizing tasks.
-* Project tracking: Allows team members and managers to monitor the progress of different projects.
+* **Real-time messaging system**: Facilitates immediate communication among team members.
+* **Live notifications**: Ensures everyone is up-to-date with the latest project developments.
+* **Task organization**: Offers tools for categorizing and prioritizing tasks.
+* **Project tracking**: Allows team members and managers to monitor the progress of different projects.
 
 ## 📸 Snapshots
 
